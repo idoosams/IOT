@@ -68,26 +68,82 @@
                         FontFamily="{StaticResource Montserrat-Medium}"
                         HorizontalTextAlignment="Center"
                         Style="{StaticResource LabelStyle}"
-                        Text="Create an account to start doing more"
+                        Text="Create an account and stay safe"
                         TextColor="{DynamicResource Gray-800}" />
 
-                    <!--  Entry to get username from user  -->
+                    <!--  Entry to get first name from user  -->
                     <border:SfBorder
                         BackgroundColor="{DynamicResource Gray-White}"
-                        BorderColor="{Binding Source={x:Reference NameEntry}, Path=IsFocused, Converter={StaticResource ColorConverter}, ConverterParameter=3}"
+                        BorderColor="{Binding Source={x:Reference FirstNameEntry}, Path=IsFocused, Converter={StaticResource ColorConverter}, ConverterParameter=3}"
                         Style="{StaticResource SfBorderStyle}">
                         <control:BorderlessEntry
-                            x:Name="NameEntry"
-                            Placeholder="Name"
+                            x:Name="FirstNameEntry"
+                            Placeholder="First Name"
                             PlaceholderColor="{DynamicResource Gray-700}"
                             Style="{StaticResource EntryStyle}"
-                            Text="{Binding Name}"
+                            Text="{Binding FirstName}"
+                            TextColor="{DynamicResource Gray-900}" />
+                    </border:SfBorder>
+
+                    <!--  Entry to get last name from user  -->
+                    <border:SfBorder
+                        BackgroundColor="{DynamicResource Gray-White}"
+                        BorderColor="{Binding Source={x:Reference LastNameEntry}, Path=IsFocused, Converter={StaticResource ColorConverter}, ConverterParameter=3}"
+                        Style="{StaticResource SfBorderStyle}">
+                        <control:BorderlessEntry
+                            x:Name="LastNameEntry"
+                            Placeholder="Last Name"
+                            PlaceholderColor="{DynamicResource Gray-700}"
+                            Style="{StaticResource EntryStyle}"
+                            Text="{Binding LastName}"
                             TextColor="{DynamicResource Gray-900}" />
                     </border:SfBorder>
 
                     <!--  Entry to get email ID from user  -->
                     <local:SimpleEmailEntry />
 
+                    <!--  Entry to get phone from user  -->
+                    <border:SfBorder
+                        BackgroundColor="{DynamicResource Gray-White}"
+                        BorderColor="{Binding Source={x:Reference PhoneEntry}, Path=IsFocused, Converter={StaticResource ColorConverter}, ConverterParameter=3}"
+                        Style="{StaticResource SfBorderStyle}">
+                        <control:BorderlessEntry
+                            x:Name="PhoneEntry"
+                            Placeholder="Phone"
+                            PlaceholderColor="{DynamicResource Gray-700}"
+                            Style="{StaticResource EntryStyle}"
+                            Text="{Binding Phone}"
+                            TextColor="{DynamicResource Gray-900}" />
+                    </border:SfBorder>
+
+                    <!--  Entry to get emergency phone from user  -->
+                    <border:SfBorder
+                        BackgroundColor="{DynamicResource Gray-White}"
+                        BorderColor="{Binding Source={x:Reference EmergencyPhoneEntry}, Path=IsFocused, Converter={StaticResource ColorConverter}, ConverterParameter=3}"
+                        Style="{StaticResource SfBorderStyle}">
+                        <control:BorderlessEntry
+                            x:Name="EmergencyPhoneEntry"
+                            Placeholder="Emergency Contact Phone"
+                            PlaceholderColor="{DynamicResource Gray-700}"
+                            Style="{StaticResource EntryStyle}"
+                            Text="{Binding EmergencyPhone}"
+                            TextColor="{DynamicResource Gray-900}" />
+                    </border:SfBorder>
+
+                    <!--  Entry to get emergency name from user  -->
+                    <!--border:SfBorder
+                        BackgroundColor="{DynamicResource Gray-White}"
+                        BorderColor="{Binding Source={x:Reference EmergencyNameEntry}, Path=IsFocused, Converter={StaticResource ColorConverter}, ConverterParameter=3}"
+                        Style="{StaticResource SfBorderStyle}">
+                        <control:BorderlessEntry
+                            x:Name="EmergencyNameEntry"
+                            Placeholder="Emergency Contact Name"
+                            PlaceholderColor="{DynamicResource Gray-700}"
+                            Style="{StaticResource EntryStyle}"
+                            Text="{Binding EmergencyName}"
+                            TextColor="{DynamicResource Gray-900}" />
+                    </-->
+                    
                     <!--  Entry to get password from user  -->
                     <border:SfBorder
                         BackgroundColor="{DynamicResource Gray-White}"
@@ -104,7 +160,7 @@
                     </border:SfBorder>
 
                     <!--  Entry to get the confirm password from user  -->
-                    <border:SfBorder
+                    <!--border:SfBorder
                         BackgroundColor="{DynamicResource Gray-White}"
                         BorderColor="{Binding Source={x:Reference ConfirmPasswordEntry}, Path=IsFocused, Converter={StaticResource ColorConverter}, ConverterParameter=3}"
                         Style="{StaticResource SfBorderStyle}">
@@ -116,7 +172,7 @@
                             Style="{StaticResource EntryStyle}"
                             Text="{Binding ConfirmPassword}"
                             TextColor="{DynamicResource Gray-900}" />
-                    </border:SfBorder>
+                    </-->
 
                     <!--  Sign-up button  -->
                     <buttons:SfButton

@@ -76,7 +76,7 @@
                         FontFamily="{StaticResource Montserrat-Medium}"
                         HorizontalTextAlignment="Center"
                         Style="{StaticResource LabelStyle}"
-                        Text="Let's get to work"
+                        Text="it's for your own safety!"
                         TextColor="{DynamicResource Gray-800}" />
 
                     <!--  Entry to get email ID from user  -->
@@ -98,7 +98,7 @@
                             TextColor="{DynamicResource Gray-900}" />
                     </border:SfBorder>
 
-                    <!--  Forgot password link  -->
+                    <!--  Forgot password link>
                     <Label
                         x:Name="ForgotPasswordLabel"
                         Grid.Row="4"
@@ -111,7 +111,7 @@
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" CommandParameter="{x:Reference ForgotPasswordLabel}" />
                         </Label.GestureRecognizers>
-                    </Label>
+                    </Label  -->
 
                     <!--  Login button  -->
                     <buttons:SfButton
@@ -122,16 +122,16 @@
                         Text="LOG IN" />
 
 
-                    <Label
+                    <!--Label
                         Grid.Row="6"
                         FontFamily="{StaticResource Montserrat-Medium}"
                         HorizontalTextAlignment="Center"
                         Style="{StaticResource LabelStyle}"
                         Text="Or create an account using social media"
-                        TextColor="{DynamicResource Gray-800}" />
+                        TextColor="{DynamicResource Gray-800}" /-->
 
-                    <!--  Login through facebook account  -->
-                    <buttons:SfButton
+                    <!--  Login through facebook account -->
+                    <!--buttons:SfButton
                         Grid.Row="7"
                         Margin="0,16,0,16"
                         BackgroundColor="{DynamicResource FacebookBlue}"
@@ -156,7 +156,7 @@
                                     TextColor="{DynamicResource Gray-White}" />
                             </StackLayout>
                         </buttons:SfButton.Content>
-                    </buttons:SfButton>
+                    </buttons:SfButton-->
 
                 </Grid>
 

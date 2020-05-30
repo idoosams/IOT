@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Samples>
 
-  <Category Icon="log-in.png" Name="Groups" IsUpdated="True" Description="Create, join or leave an IoTogether group.">
-   <!-- <Page Name="Simple Login Page" Description="If you want a simple and clean authentication form, just add this page to your application. Email validation is done within this form." PageName="Views.Forms.SimpleLoginPage"/>
+  <Category Icon="log-in.png" Name="Forms" IsUpdated="True" Description="Get the user’s details to authenticate, create a profile, and enter credit card information for online payment portal.">
+    <Page Name="Simple Login Page" Description="If you want a simple and clean authentication form, just add this page to your application. Email validation is done within this form." PageName="Views.Forms.SimpleLoginPage"/>
     <Page Name="Simple Sign Up Page" Description="This is a supporting form for a simple login page that can be modified to match any of your login pages on the fly. Email validation is done in this form." PageName="Views.Forms.SimpleSignUpPage"/>
     <Page Name="Simple Reset Password Page" Description="This page is used for resetting a password with existing credentials or signing up if the user doesn’t have credentials yet." PageName="Views.Forms.SimpleResetPasswordPage"/>
     <Page Name="Simple Forgot Password Page" Description="This page follows a login page through a Forgot Password option. If a username does not exist, users can easily sign up from this page." PageName="Views.Forms.SimpleForgotPasswordPage"/>
@@ -12,13 +12,13 @@
     <Page Name="Forgot Password Page With Gradient" Description="This page follows a login page through a Forgot Password option. If a username does not exist, users can easily sign up from this page." PageName="Views.Forms.ForgotPasswordPage"/>
     <Page Name="Add Contact Page" Description="This page allows users to add  new contacts with additional information such as name, email address, and phone number." PageName="Views.Forms.AddContactPage"/>
     <Page Name="Tabbed Login Page" Description="This page is a multi-tabbed user interface where one tab provides a login page and another tab provides a sign-up form." PageName="Views.Forms.TabbedForm"/>
-    <Page Name="Add Card Page" Description="This page allows users to enter their credit card information to be used in an online payment portal." PageName="Views.Forms.AddCardPage"/>-->
-    <Page Name="Create group" Description="This page allows users to create a new IoTogether group." PageName="Views.Forms.AddProfilePage"/>
-    <!--<Page Name="Business Registration Form Page"  Description="This page allows users to add business details such as name, email address, and phone number." PageName="Views.Forms.BusinessRegistrationFormPage"/>
-    <Page Name="Login with Social Icon Page" IsNew="True" Description="Add this page to your application if you want a login page with social network icons. Email validation is done within the form." PageName="Views.Forms.LoginWithSocialIconPage"/> -->
+    <Page Name="Add Card Page" Description="This page allows users to enter their credit card information to be used in an online payment portal." PageName="Views.Forms.AddCardPage"/>
+    <Page Name="Add Profile Page" Description="This page allows users to add a new entry to their contacts with additional information such as name and phone number." PageName="Views.Forms.AddProfilePage"/>
+    <Page Name="Business Registration Form Page"  Description="This page allows users to add business details such as name, email address, and phone number." PageName="Views.Forms.BusinessRegistrationFormPage"/>
+    <Page Name="Login with Social Icon Page" IsNew="True" Description="Add this page to your application if you want a login page with social network icons. Email validation is done within the form." PageName="Views.Forms.LoginWithSocialIconPage"/> 
   </Category>
 
-  <!--<Category Icon="catalog.png" Name="Catalog" IsUpdated="True" Description="Let the users select from the list of items that includes titles, brief descriptions, and photos.">
+  <Category Icon="catalog.png" Name="Catalog" IsUpdated="True" Description="Let the users select from the list of items that includes titles, brief descriptions, and photos.">
     <Page Name="Category Tile Page" Description="Displaying an image with a title is a scenario in most applications, and this page categorizes product images and provides a title for the category." PageName="Views.Catalog.CategoryTilePage"/>
     <Page Name="Catalog Tile Page" Description="In any e-commerce application, showcasing a product with a rating and other details is mandatory. This page showcases a set of products with a short description, price, and user rating. " PageName="Views.Catalog.CatalogTilePage"/>
     <Page Name="Catalog List Page" Description="Displaying an image with some information is a scenario in many applications, and this page showcases product images with their titles, prices, and discounted prices." PageName="Views.Catalog.CatalogListPage"/>
@@ -87,6 +87,10 @@
     <Page Name="File Explorer Grid Page" IsNew="True" Description="This page shows a list of folders in a grid view that includes the name of the folder and the number of items in it." PageName="Views.Navigation.FileExploreGridPage"/>
   </Category>
 
+  <Category Icon="on-boarding.png" Name="Onboarding" Description="Get your users started with a new app or experience with step-by--step instructions.">
+    <Page Name="Walk-through Page" Description="Guide users through a setup process on color gradient pages" PageName="Views.OnBoarding.OnBoardingAnimationPage"/>    
+  </Category>
+
   <Category Icon="error-empty.png" Name="Error and Empty" Description="Alert users to errors, empty shopping carts, task lists, item selections, and more.">
     <Page Name="Empty Cart Page" Description="This page represents a cart that doesn’t have any items with an illustrated empty cart image." PageName="Views.ErrorAndEmpty.EmptyCartPage"/>
     <Page Name="Location Denied Page" Description="This page represents a location that cannot be accessed with an illustrated location image." PageName="Views.ErrorAndEmpty.LocationDeniedPage"/>
@@ -126,13 +130,17 @@
     <Page Name="Social Profile with Card Page" Description="This page displays a social media profile with a user’s image, location, and biographical information presented on a card." PageName="Views.Social.SocialProfileWithCardPage"/>
     <Page Name="Social Profile with Interest Page" Description="This page displays a social media profile with a user’s image, location, interests, and biographical information presented on a card." PageName="Views.Social.SocialProfileWithInterestsPage"/>
     <Page Name="Social Profile with Message Page" IsNew="True" Description="This page displays a social media profile page with links to other profiles that may be of interest to the user. It also features follow and message buttons, plus profile background images." PageName="Views.Social.SocialProfileWithMessagePage"/>
-  </Category>-->
-
-  <Category Icon="profile.png" IsUpdated="True" Name="Profile" Description="Congifure your IoTogether profile.">
-    <Page Name="Bla bla" Description="This page displays bla bla kaka." PageName="Views.Profile.ProfilePage"/>
   </Category>
 
-  <!--<Category Icon="tracking.png" Name="Tracking" Description="Displays various trackings like train status, product delivery status, and more.">
+  <Category Icon="profile.png" IsUpdated="True" Name="Profile" Description="Display various user profiles related to an article, chat user, and more.">
+    <Page Name="Author Profile Page" Description="This page displays the author’s profile image and name, which can be edited by the author. A night mode switch is present to provide an effective reading display in dark settings." PageName="Views.Profile.ProfilePage"/>
+    <Page Name="Contacts Page" Description="This page displays a contact’s profile in a chat application. It displays the contact’s profile picture, mail ID, contact number, and recent media files that have been shared with that contact. " PageName="Views.Profile.ContactProfilePage" />
+    <Page Name="Chat Profile Page" Description="This page displays the user’s profile in a chat application. It displays their profile picture, mail ID, contact number, notifications, and help options. " PageName="Views.Profile.ChatProfilePage" />
+    <Page Name="Master Page" Description="This page displays an interactive burger menu of article pages. If you are working with a master-details page for articles, this page will be the master page for navigating across the application." PageName="Views.Profile.MasterPage"/>
+    <Page Name="Health Profile Page" IsNew="True" Description="This page shows health details including age, weight, height, calories eaten, heart rate, water consumed, and sleep duration." PageName="Views.Profile.HealthProfilePage"/>
+  </Category>
+
+  <Category Icon="tracking.png" Name="Tracking" Description="Displays various trackings like train status, product delivery status, and more.">
     <Page Name="Product Delivery Tracking Page" Description="This page displays a live train’s present status with the estimated time of arrival at a specified destination." PageName="Views.Tracking.ProductDeliveryTrackingPage"/>
   </Category>
 
@@ -143,15 +151,17 @@
     <Page Name="Daily Timeline Page" IsNew="True" Description="This page displays a daily dashboard in the form a timeline of event details." PageName="Views.Dashboard.DailyTimelinePage"/>
     <Page Name="Company History Page" IsNew="True" Description="This page shows a business history dashboard of accomplishments and their year." PageName="Views.Dashboard.CompanyHistoryPage"/>
     <Page Name="My Wallet Page" IsNew="True" Description="This page shows income and expense charts as well as transaction details such as name, description, amount, and date." PageName="Views.Dashboard.MyWalletPage"/>
-  </Category> -->
+  </Category>
 
   <Category Icon="setting.png" Name="Settings" Description="Display various types of settings pages.">
     <Page Name="Setting Page" Description="This page displays a simple settings page that includes account, notification, and support settings." PageName="Views.Settings.SettingPage"/>
     <Page Name="Help Page"  Description="This page displays a simple help page that provides help with recent orders and other queries." PageName="Views.Settings.HelpPage"/>
   </Category>
 
-  <Category Icon="notification.png" Name="Notification" Description="Display your IoTogether notifications.">
-    <Page Name="Your Notifications" Description="IoTogether notfications of your groups." PageName="Views.Notification.TaskNotificationPage"/>
+  <Category Icon="notification.png" Name="Notification" IsUpdated="True" Description="Display various types of notification pages.">
+    <Page Name="Task Notification Page" Description="This page displays notifications for tasks, showing descriptions, task IDs, and times." PageName="Views.Notification.TaskNotificationPage"/>
+    <Page Name="Social Notification Page" Description="This page displays social media notifications, containing a list of recent notifications and a list of earlier ones." PageName="Views.Notification.SocialNotificationPage"/>
+    <Page Name="E-commerce Notification Page" IsNew="True" Description="This page displays e-commerce notifications that include description and time." PageName="Views.Notification.ECommerceNotificationPage"/>
   </Category>
    
   <!--<Category Name="Shopping" Description="Simple shopping flow, fetturing catalog detail, cart detail and product checkout.">

@@ -29,9 +29,9 @@ namespace EssentialUIKit.ViewModels.Profile
         /// </summary>
         public ProfileViewModel()
         {
-            this.profileImage = "https://i.ytimg.com/vi/TocsyPixEEQ/hqdefault.jpg"; // App.BaseImageUrl + "ProfileImage1.png";
-            this.profileName = "Roni Perry";
-            this.email = "ronihamalka@gmail.com";
+            this.profileImage = App.BaseImageUrl + "ProfileImage1.png";
+            this.profileName = "John Deo";
+            this.email = "johndoe@gmail.com";
 
             this.EditCommand = new Command(this.EditButtonClicked);
             this.NightModeCommand = new Command(this.NightModeOptionClicked);

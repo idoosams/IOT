@@ -15,7 +15,15 @@ namespace EssentialUIKit.Droid
             Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
             Window.SetFlags(WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);
             base.OnCreate(bundle);
+            Xamarin.Essentials.Platform.Init(this, bundle);
             this.StartActivity(typeof(MainActivity));
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }
