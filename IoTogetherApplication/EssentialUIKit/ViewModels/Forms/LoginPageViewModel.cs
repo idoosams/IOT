@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using EssentialUIKit.AppLayout.Views;
+using EssentialUIKit.Views.Forms;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
@@ -89,7 +92,15 @@ namespace EssentialUIKit.ViewModels.Forms
         /// <param name="obj">The Object</param>
         private void LoginClicked(object obj)
         {
-            // Do something
+            App._user = AzureDbClient.TryGetUser(this.Email, this.password);
+            if (App._user != null)
+            {
+                Application.Current.MainPage.Navigation.PushAsync(new ChooseActionPage(), true);
+            }
+            else
+            {
+                Application.Current.MainPage.DisplayAlert("Oops", $"Incorrect email or password, please try again", "Ok");
+            }                   
         }
 
         /// <summary>
@@ -98,7 +109,7 @@ namespace EssentialUIKit.ViewModels.Forms
         /// <param name="obj">The Object</param>
         private void SignUpClicked(object obj)
         {
-            // Do something
+            Application.Current.MainPage.Navigation.PushAsync(new SimpleSignUpPage(), true);
         }
 
         /// <summary>

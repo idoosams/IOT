@@ -20,6 +20,7 @@ namespace EssentialUIKit.Droid
             Forms.SetFlags("CollectionView_Experimental");
 
             Forms.Init(this, savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
 
             Syncfusion.XForms.Android.PopupLayout.SfPopupLayoutRenderer.Init();
 
@@ -32,6 +33,13 @@ namespace EssentialUIKit.Droid
 
             // Enable scrolling to the page when the keyboard is enabled
             Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }

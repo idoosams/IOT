@@ -1,4 +1,7 @@
-﻿using EssentialUIKit.AppLayout.Views;
+﻿using EssentialUIKit.AppLayout;
+using EssentialUIKit.AppLayout.Views;
+using EssentialUIKit.Views.Forms;
+using System.Collections.Generic;
 #if EnableAppCenterAnalytics
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
@@ -18,6 +21,11 @@ namespace EssentialUIKit
     public partial class App
     {
         #region Constructor
+        public static ParticipantTableEntity _user { get; set; }
+
+        public static string _groupId { get; set; }
+
+        public static List<ParticipantTableEntity> _activeUsers { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="App" /> class.
@@ -34,7 +42,8 @@ namespace EssentialUIKit
             InitializeComponent();
 
             // this.MainPage = new AppShell();
-            this.MainPage = new NavigationPage(new HomePage());
+            AppSettings.Instance.SelectedPrimaryColor = 2;
+            this.MainPage = new NavigationPage(new SimpleLoginPage());            
         }
 
         #endregion

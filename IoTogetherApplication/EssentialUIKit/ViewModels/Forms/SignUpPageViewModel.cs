@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using EssentialUIKit.Views.Forms;
+using System;
+using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
 namespace EssentialUIKit.ViewModels.Forms
@@ -11,7 +13,15 @@ namespace EssentialUIKit.ViewModels.Forms
     {
         #region Fields
 
-        private string name;
+        private string firstName;        
+
+        private string lastName;
+
+        private string phone;
+
+        private string emergencyName;
+
+        private string emergencyPhone;
 
         private string password;
 
@@ -37,21 +47,97 @@ namespace EssentialUIKit.ViewModels.Forms
         /// <summary>
         /// Gets or sets the property that bounds with an entry that gets the name from user in the Sign Up page.
         /// </summary>
-        public string Name
+        public string FirstName
         {
             get
             {
-                return this.name;
+                return this.firstName;
             }
 
             set
             {
-                if (this.name == value)
+                if (this.firstName == value)
                 {
                     return;
                 }
 
-                this.name = value;
+                this.firstName = value;
+                this.NotifyPropertyChanged();
+            }
+        }
+
+        public string LastName
+        {
+            get
+            {
+                return this.lastName;
+            }
+
+            set
+            {
+                if (this.lastName == value)
+                {
+                    return;
+                }
+
+                this.lastName = value;
+                this.NotifyPropertyChanged();
+            }
+        }
+
+        public string Phone
+        {
+            get
+            {
+                return this.phone;
+            }
+
+            set
+            {
+                if (this.phone == value)
+                {
+                    return;
+                }
+
+                this.phone = value;
+                this.NotifyPropertyChanged();
+            }
+        }
+
+        public string EmergencyName
+        {
+            get
+            {
+                return this.emergencyName;
+            }
+
+            set
+            {
+                if (this.emergencyName == value)
+                {
+                    return;
+                }
+
+                this.emergencyName = value;
+                this.NotifyPropertyChanged();
+            }
+        }
+
+        public string EmergencyPhone
+        {
+            get
+            {
+                return this.emergencyPhone;
+            }
+
+            set
+            {
+                if (this.emergencyPhone == value)
+                {
+                    return;
+                }
+
+                this.emergencyPhone = value;
                 this.NotifyPropertyChanged();
             }
         }
@@ -123,8 +209,8 @@ namespace EssentialUIKit.ViewModels.Forms
         /// </summary>
         /// <param name="obj">The Object</param>
         private void LoginClicked(object obj)
-        {
-            // Do something
+        {            
+            Application.Current.MainPage.Navigation.PushAsync(new SimpleLoginPage());
         }
 
         /// <summary>
@@ -133,7 +219,11 @@ namespace EssentialUIKit.ViewModels.Forms
         /// <param name="obj">The Object</param>
         private void SignUpClicked(object obj)
         {
-            // Do something
+            string id = Guid.NewGuid().ToString("N");
+            Participant participant = new Participant(id, this.firstName, this.lastName, this.phone, this.emergencyPhone, this.emergencyName, this.Email, this.password);
+            AzureDbClient.SaveParticipant(participant).ConfigureAwait(false);
+            Application.Current.MainPage.DisplayAlert($"Welcome, {this.firstName} {this.lastName}", "Please login with your new credentials", "Ok");
+            Application.Current.MainPage.Navigation.PushAsync(new SimpleLoginPage());
         }
 
         #endregion
