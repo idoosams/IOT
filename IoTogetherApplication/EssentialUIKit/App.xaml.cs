@@ -2,6 +2,8 @@
 using EssentialUIKit.AppLayout.Views;
 using EssentialUIKit.Views.Forms;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
 #if EnableAppCenterAnalytics
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
@@ -41,6 +43,8 @@ namespace EssentialUIKit
 
             InitializeComponent();
 
+            Task.Factory.StartNew(() => methodRunPeriodically());
+
             // this.MainPage = new AppShell();
             AppSettings.Instance.SelectedPrimaryColor = 2;
             this.MainPage = new NavigationPage(new SimpleLoginPage());            
@@ -78,6 +82,19 @@ namespace EssentialUIKit
         protected override void OnResume()
         {
             // Handle when your app resumes
+        }
+
+        async Task methodRunPeriodically()
+        {
+            while (true)
+            {
+                if (!string.IsNullOrWhiteSpace(App._groupId))
+                {
+                    var participantsFromTable = AzureDbClient.GetGroupParticipants(App._groupId);
+                    App._activeUsers = participantsFromTable;
+                }                
+                await Task.Delay(3000); //Refresh every 3 seconds
+            }
         }
 
         #endregion

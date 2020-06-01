@@ -16,6 +16,8 @@ namespace EssentialUIKit.ViewModels.Detail
     {
         #region Fields
 
+        private string groupId = App._groupId;
+
         private List<DataTable> items;
 
         #endregion
@@ -31,6 +33,25 @@ namespace EssentialUIKit.ViewModels.Detail
         #endregion
 
         #region Public Properties
+
+        public string GroupId
+        {
+            get
+            {
+                return this.groupId;
+            }
+
+            set
+            {
+                if (this.groupId == value)
+                {
+                    return;
+                }
+
+                this.groupId = value;
+                this.NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the property that has been bound with a list view, which displays the items.
@@ -91,7 +112,7 @@ namespace EssentialUIKit.ViewModels.Detail
                         BatteryPercentageDiagram = CreateBatteryColorView(20)
                     });
                 }
-                await Task.Delay(10000); //Refresh every 5 seconds
+                await Task.Delay(3000); //Refresh every 3 seconds
             }
         }
 

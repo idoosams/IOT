@@ -43,6 +43,11 @@
                                        CommandParameter="{x:Reference backButton}" CornerRadius="4"
                                        Style="{StaticResource IconButtonStyle}" Text="{StaticResource Back}"/>
 
+                    <!--   Group id label  -->
+                    <Label  Margin="16,0" FontFamily="{StaticResource Montserrat-Medium}" FontSize="16"
+                            HorizontalOptions="CenterAndExpand" TextColor="{DynamicResource Gray-900}"
+                            LineHeight="1.25"  Text="{Binding GroupId}"  VerticalOptions="Center" VerticalTextAlignment="Center" />
+                    
                     <!--   Data table page Title  -->
                     <Label  Margin="16,0" FontFamily="{StaticResource Montserrat-Medium}" FontSize="16"
                             HorizontalOptions="CenterAndExpand" TextColor="{DynamicResource Gray-900}"
