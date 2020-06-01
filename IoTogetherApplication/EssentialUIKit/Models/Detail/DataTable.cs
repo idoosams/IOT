@@ -8,48 +8,34 @@ namespace EssentialUIKit.Models.Detail
     [Preserve(AllMembers = true)]
     public class DataTable
     {
-        #region fields
-
-        private string imagePath;
-
-        #endregion
 
         #region Public Properties
 
-        /// <summary>
-        /// Gets or sets the club image.
+        /// <summary>RowKey
+        /// Gets or sets the RowKey.
         /// </summary>
-        public string ImagePath
-        {
-            get { return App.BaseImageUrl + this.imagePath; }
-            set { this.imagePath = value; }
-        }
+        public string RowKey { get; set; }
 
         /// <summary>
-        /// Gets or sets the serial number.
+        /// Gets or sets the FirstName .
         /// </summary>
-        public string SerialNumber { get; set; }
+        public string FirstName { get; set; }
 
         /// <summary>
-        /// Gets or sets the club name.
+        /// Gets or sets the LastName.
         /// </summary>
-        public string ClubName { get; set; }
-      
-        /// <summary>
-        /// Gets or sets the gold points.
-        /// </summary>
-        public string GoldPoints { get; set; }
+        public string LastName { get; set; }
 
         /// <summary>
-        /// Gets or sets the points.
+        /// Gets or sets the Phone.
         /// </summary>
-        public string Points { get; set; }
+        public string Phone { get; set; }
 
         /// <summary>
-        /// Gets or sets the match results.
+        /// Gets or sets the BatteryPercentageDiagram.
         /// </summary>
-        public string[] MatchResults { get; set; }
+        public string[] BatteryPercentageDiagram { get; set; }
 
-    #endregion
+        #endregion
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EssentialUIKit.Controls;
+using System;
+using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
@@ -16,6 +18,7 @@ namespace EssentialUIKit.Views.Detail
         {
             InitializeComponent();
         }
+
         /// <summary>
         /// Invoked when view size is changed.
         /// </summary>x
