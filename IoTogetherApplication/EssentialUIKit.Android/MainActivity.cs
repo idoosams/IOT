@@ -10,12 +10,14 @@ namespace EssentialUIKit.Droid
     [Activity(Label = "Essential UI Kit", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
-    {
+    {       
         protected override void OnCreate(Bundle savedInstanceState)
-        {   
+        {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjY1Njg0QDMxMzgyZTMxMmUzMGhqMm5KV2ZqTWVnNGMrR2JDRFI1RUhXSWFuN2ozcWx2OXpOWGlJMjhKZEk9");
+
             Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
 
-            base.OnCreate(savedInstanceState);
+            base.OnCreate(savedInstanceState);            
 
             Forms.SetFlags("CollectionView_Experimental");
 

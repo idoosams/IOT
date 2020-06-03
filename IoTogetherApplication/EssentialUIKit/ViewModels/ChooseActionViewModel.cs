@@ -105,8 +105,10 @@ namespace EssentialUIKit.ViewModels
         {
             string guid = Guid.NewGuid().ToString("N");
             App._groupId = GenerateGroupId();
+            App._groupName = this.groupName;
             var sessionParticipant = new SessionParticipant(guid, App._groupId, this.groupName, true, App._user.RowKey);
             AzureDbClient.AddParticipantToGroup(sessionParticipant).ConfigureAwait(false);
+            App._activeUsers = AzureDbClient.GetGroupParticipants(App._groupId);
             Application.Current.MainPage.Navigation.PushAsync(new DataTablePage(), true);
         }
 
@@ -118,6 +120,7 @@ namespace EssentialUIKit.ViewModels
         {
             string guid = Guid.NewGuid().ToString("N");
             App._groupId = this.groupId;
+            App._groupName = this.groupName;
             this.groupName = AzureDbClient.GroupIdToName(App._groupId);
             if (this.groupName == null)
             {
@@ -125,7 +128,7 @@ namespace EssentialUIKit.ViewModels
             }
             else
             {
-                var sessionParticipant = new SessionParticipant(guid, App._groupId, this.groupName, false, App._user.Id);
+                var sessionParticipant = new SessionParticipant(guid, App._groupId, this.groupName, false, App._user.RowKey);
                 AzureDbClient.AddParticipantToGroup(sessionParticipant).ConfigureAwait(false);
                 App._activeUsers = AzureDbClient.GetGroupParticipants(App._groupId);
 
@@ -136,7 +139,7 @@ namespace EssentialUIKit.ViewModels
         private string GenerateGroupId()
         {
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            var stringChars = new char[8];
+            var stringChars = new char[5];
             var random = new Random();
 
             for (int i = 0; i < stringChars.Length; i++)
