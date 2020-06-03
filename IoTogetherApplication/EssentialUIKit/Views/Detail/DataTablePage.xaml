@@ -51,7 +51,7 @@
                     <!--   Data table page Title  -->
                     <Label  Margin="16,0" FontFamily="{StaticResource Montserrat-Medium}" FontSize="16"
                             HorizontalOptions="CenterAndExpand" TextColor="{DynamicResource Gray-900}"
-                            LineHeight="1.25"  Text="Group Participants"  VerticalOptions="Center" VerticalTextAlignment="Center" />
+                            LineHeight="1.25"  Text="{Binding GroupName}"  VerticalOptions="Center" VerticalTextAlignment="Center" />
 
                 </StackLayout>
 

@@ -27,6 +27,8 @@ namespace EssentialUIKit
 
         public static string _groupId { get; set; }
 
+        public static string _groupName { get; set; }
+
         public static List<ParticipantTableEntity> _activeUsers { get; set; }
 
         /// <summary>
@@ -46,7 +48,7 @@ namespace EssentialUIKit
             Task.Factory.StartNew(() => methodRunPeriodically());
 
             // this.MainPage = new AppShell();
-            AppSettings.Instance.SelectedPrimaryColor = 2;
+            AppSettings.Instance.SelectedPrimaryColor = 1;
             this.MainPage = new NavigationPage(new SimpleLoginPage());            
         }
 

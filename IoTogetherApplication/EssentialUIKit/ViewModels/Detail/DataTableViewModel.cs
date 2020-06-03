@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using EssentialUIKit.Models.Detail;
+using Xamarin.Essentials;
 using Xamarin.Forms.Internals;
 
 namespace EssentialUIKit.ViewModels.Detail
@@ -17,6 +18,8 @@ namespace EssentialUIKit.ViewModels.Detail
         #region Fields
 
         private string groupId = App._groupId;
+
+        private string _groupName = App._groupName;
 
         private List<DataTable> items;
 
@@ -33,6 +36,25 @@ namespace EssentialUIKit.ViewModels.Detail
         #endregion
 
         #region Public Properties
+
+        public string GroupName
+        {
+            get
+            {
+                return this._groupName;
+            }
+
+            set
+            {
+                if (this._groupName == value)
+                {
+                    return;
+                }
+
+                this._groupName = value;
+                this.NotifyPropertyChanged();
+            }
+        }
 
         public string GroupId
         {
@@ -80,7 +102,7 @@ namespace EssentialUIKit.ViewModels.Detail
 
         #region Private Methods
 
-        private string[] CreateBatteryColorView(int batteryPercentage)
+        private string[] CreateBatteryColorView(double batteryPercentage)
         {
             if (batteryPercentage <= 15)
                 return new string[5] { "#ff4a4a", "#b2b8c2", "#b2b8c2", "#b2b8c2", "#b2b8c2" };
@@ -107,9 +129,8 @@ namespace EssentialUIKit.ViewModels.Detail
                         //   RowKey = participant.RowKey,
                         FirstName = participant.FirstName,
                         LastName = participant.LastName,
-                        Phone = participant.Phone,
-                        //BatteryPercentageDiagram = CreateBatteryColorView(participant.BatteryPercentage)
-                        BatteryPercentageDiagram = CreateBatteryColorView(20)
+                        Phone = participant.Phone,                        
+                        BatteryPercentageDiagram = CreateBatteryColorView(Battery.ChargeLevel) // TODO: get this propertry from server, not from client!
                     });
                 }
                 await Task.Delay(3000); //Refresh every 3 seconds
