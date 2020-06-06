@@ -95,22 +95,18 @@
                         <DataTemplate>
                             <Grid Grid.Row="2" HeightRequest="48" Margin="0,8,0,0" Padding="16,0,8,0" ColumnSpacing="0" BackgroundColor="{StaticResource Gray-100}">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=3*}" />
+                                    <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=3*}" />
                                     <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2*}" />
-                                    <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2*}" />
-                                    <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2*}" />
-                                    <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=*}" />
                                 </Grid.ColumnDefinitions>
 
-                                <Label Grid.Column="0" HorizontalOptions="Start"  Text="First Name"  FontSize="12" FontFamily="{StaticResource Montserrat-SemiBold}"                                                      
-                                   TextColor="{DynamicResource Gray-800}" VerticalOptions="Center"  />
-
-                                <Label  Grid.Column="1" HorizontalOptions="Start"  Text="Last Name" FontSize="12" FontFamily="{StaticResource Montserrat-SemiBold}"                                 
+                                <Label  Grid.Column="0" HorizontalOptions="Center"  Text="Name" FontSize="12" FontFamily="{StaticResource Montserrat-SemiBold}"                                 
                                    TextColor="{DynamicResource Gray-800}" VerticalOptions="Center"/>
 
-                                <Label  Grid.Column="2" HorizontalOptions="Start"  Text="Phone"  FontSize="12" FontFamily="{StaticResource Montserrat-SemiBold}"                                    
+                                <Label  Grid.Column="1" HorizontalOptions="Center"  Text="Phone"  FontSize="12" FontFamily="{StaticResource Montserrat-SemiBold}"                                    
                                    TextColor="{DynamicResource Gray-800}" VerticalOptions="Center"/>
 
-                                <Label  Grid.Column="3" Grid.ColumnSpan="2" HorizontalOptions="Start"  Text="Battery Level"  FontSize="12" FontFamily="{StaticResource Montserrat-SemiBold}"                                
+                                <Label  Grid.Column="2" Grid.ColumnSpan="2" HorizontalOptions="Start"  Text="Battery Level"  FontSize="12" FontFamily="{StaticResource Montserrat-SemiBold}"                                
                                    TextColor="{DynamicResource Gray-800}" VerticalOptions="Center"/>
                                 
                             </Grid>
@@ -124,26 +120,21 @@
                                 <StackLayout Margin="0" Spacing="0" >
                                     <Grid HeightRequest="48" Margin="16,0,8,0" ColumnSpacing="0">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2*}" />
-                                            <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2*}" />
-                                            <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=3*}" />
+                                            <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2.5*}" />
+                                            <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2.5*}" />
                                             <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2*}" />
                                         </Grid.ColumnDefinitions>
                                         
-                                        <!--  first name -->
-                                        <Label Grid.Column="0" Text="{Binding FirstName}"  FontSize="14" FontFamily="{StaticResource Montserrat-Medium}" 
-                                        TextColor="{DynamicResource Gray-900}" VerticalOptions="Center" HorizontalOptions="Center" />
-
-                                        <!--  last name -->
-                                        <Label  Grid.Column="1" Text="{Binding LastName}" FontSize="14" FontFamily="{StaticResource Montserrat-Medium}" 
+                                        <!-- Name -->
+                                        <Label Grid.Column="0" Text="{Binding Name}"  FontSize="14" FontFamily="{StaticResource Montserrat-Medium}" 
                                         TextColor="{DynamicResource Gray-900}" VerticalOptions="Center" HorizontalOptions="Center" />
 
                                         <!--  phone number -->
-                                        <Label  Grid.Column="2" Text="{Binding Phone}"  FontSize="12" FontFamily="{StaticResource Montserrat-Medium}" 
+                                        <Label  Grid.Column="1" Text="{Binding Phone}"  FontSize="12" FontFamily="{StaticResource Montserrat-Medium}" 
                                         TextColor="{DynamicResource Gray-900}" VerticalOptions="Center" HorizontalOptions="Center" />
 
                                         <!--  Battery status -->
-                                        <StackLayout  x:Name="stackLayout" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Start" 
+                                        <StackLayout  x:Name="stackLayout" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Start" 
                                                       Orientation="Horizontal" Spacing="4"
                                                       BindableLayout.ItemsSource="{Binding BatteryPercentageDiagram}" WidthRequest="8" 
                                                       HeightRequest="8">

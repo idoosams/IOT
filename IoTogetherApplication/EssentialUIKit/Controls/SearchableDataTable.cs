@@ -21,12 +21,12 @@ namespace EssentialUIKit.Controls
             {
                 var taskInfo = obj as Models.Detail.DataTable;
 
-                if (string.IsNullOrEmpty(taskInfo.FirstName))
+                if (string.IsNullOrEmpty(taskInfo.Name))
                 {
                     return false;
                 }
 
-                return taskInfo.FirstName.ToUpperInvariant().Contains(this.SearchText.ToUpperInvariant());
+                return taskInfo.Name.ToUpperInvariant().Contains(this.SearchText.ToUpperInvariant());
             }
             return false;
         }
