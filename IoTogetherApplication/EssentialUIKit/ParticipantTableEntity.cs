@@ -8,7 +8,7 @@ namespace EssentialUIKit
     public class ParticipantTableEntity : TableEntity
     {
 
-        // gfdgfdgfdgfdgfd
+        // more informative comment
         public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
