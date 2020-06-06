@@ -90,16 +90,16 @@ namespace EssentialUIKit.ViewModels.Forms
         /// Invoked when the Log In button is clicked.
         /// </summary>
         /// <param name="obj">The Object</param>
-        private void LoginClicked(object obj)
+        private async void LoginClicked(object obj)
         {
-            App._user = AzureDbClient.TryGetUser(this.Email, this.password);
+            App._user = AzureDbClient.TryGetUser(this.Email, PasswordHasher.GetHashString(this.password));
             if (App._user != null)
             {
-                Application.Current.MainPage.Navigation.PushAsync(new ChooseActionPage(), true);
+                await Application.Current.MainPage.Navigation.PushAsync(new ChooseActionPage(), true);
             }
             else
             {
-                Application.Current.MainPage.DisplayAlert("Oops", $"Incorrect email or password, please try again", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Oops", $"Incorrect email or password, please try again", "Ok");
             }                   
         }
 
@@ -107,9 +107,9 @@ namespace EssentialUIKit.ViewModels.Forms
         /// Invoked when the Sign Up button is clicked.
         /// </summary>
         /// <param name="obj">The Object</param>
-        private void SignUpClicked(object obj)
+        private async void SignUpClicked(object obj)
         {
-            Application.Current.MainPage.Navigation.PushAsync(new SimpleSignUpPage(), true);
+            await Application.Current.MainPage.Navigation.PushAsync(new SimpleSignUpPage(), true);
         }
 
         /// <summary>
