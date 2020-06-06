@@ -1,5 +1,7 @@
 ﻿using EssentialUIKit.Views.Forms;
 using System;
+using System.Security.Cryptography;
+using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
@@ -208,24 +210,24 @@ namespace EssentialUIKit.ViewModels.Forms
         /// Invoked when the Log in button is clicked.
         /// </summary>
         /// <param name="obj">The Object</param>
-        private void LoginClicked(object obj)
+        private async void LoginClicked(object obj)
         {            
-            Application.Current.MainPage.Navigation.PushAsync(new SimpleLoginPage());
+            await Application.Current.MainPage.Navigation.PushAsync(new SimpleLoginPage());
         }
 
         /// <summary>
         /// Invoked when the Sign Up button is clicked.
         /// </summary>
         /// <param name="obj">The Object</param>
-        private void SignUpClicked(object obj)
+        private async void SignUpClicked(object obj)
         {
             string id = Guid.NewGuid().ToString("N");
-            Participant participant = new Participant(id, this.firstName, this.lastName, this.phone, this.emergencyPhone, this.emergencyName, this.Email, this.password);
-            AzureDbClient.SaveParticipant(participant).ConfigureAwait(false);
-            Application.Current.MainPage.DisplayAlert($"Welcome, {this.firstName} {this.lastName}", "Please login with your new credentials", "Ok");
-            Application.Current.MainPage.Navigation.PushAsync(new SimpleLoginPage());
+            Participant participant = new Participant(id, this.firstName, this.lastName, this.phone, this.emergencyPhone, this.emergencyName, this.Email, PasswordHasher.GetHashString(this.password));
+            await AzureDbClient.SaveParticipant(participant);
+            await Application.Current.MainPage.DisplayAlert($"Welcome, {this.firstName} {this.lastName}", "Please login with your new credentials", "Ok");
+            await Application.Current.MainPage.Navigation.PushAsync(new SimpleLoginPage());
         }
 
-        #endregion
-    }
+    #endregion
+}
 }

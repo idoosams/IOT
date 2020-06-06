@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using EssentialUIKit.Models.Detail;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
 namespace EssentialUIKit.ViewModels.Detail
@@ -32,11 +33,14 @@ namespace EssentialUIKit.ViewModels.Detail
         public DataTableViewModel()
         {
             this.Items = new List<DataTable>();
+            this.MapClicked = new Command(this.OnMapClick);
             Task.Factory.StartNew(() => methodRunPeriodically());
         }
         #endregion
 
         #region Public Properties
+
+        public Command MapClicked { get; set; }
 
         public string GroupName
         {
@@ -102,6 +106,11 @@ namespace EssentialUIKit.ViewModels.Detail
 
 
         #region Private Methods
+        public async void OnMapClick()
+        {
+            var map = await MapPageViewModel.GetMap(App._groupId);
+            await Application.Current.MainPage.Navigation.PushAsync(map);
+        }
 
         private string[] CreateBatteryColorView(double batteryPercentage)
         {

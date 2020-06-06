@@ -101,22 +101,22 @@ namespace EssentialUIKit.ViewModels
         /// Invoked when the Log In button is clicked.
         /// </summary>
         /// <param name="obj">The Object</param>
-        private void CreateClicked(object obj)
+        private async void CreateClicked(object obj)
         {
             string guid = Guid.NewGuid().ToString("N");
             App._groupId = GenerateGroupId();
             App._groupName = this.groupName;
             var sessionParticipant = new SessionParticipant(guid, App._groupId, this.groupName, true, App._user.RowKey);
-            AzureDbClient.AddParticipantToGroup(sessionParticipant).ConfigureAwait(false);
+            await AzureDbClient.AddParticipantToGroup(sessionParticipant);
             App._activeUsers = AzureDbClient.GetGroupParticipants(App._groupId);
-            Application.Current.MainPage.Navigation.PushAsync(new DataTablePage(), true);
+            await Application.Current.MainPage.Navigation.PushAsync(new DataTablePage(), true);
         }
 
         /// <summary>
         /// Invoked when the Sign Up button is clicked.
         /// </summary>
         /// <param name="obj">The Object</param>
-        private void JoinClicked(object obj)
+        private async void JoinClicked(object obj)
         {
             string guid = Guid.NewGuid().ToString("N");
             App._groupId = this.groupId;
@@ -124,15 +124,15 @@ namespace EssentialUIKit.ViewModels
             App._groupName = this.groupName;
             if (this.groupName == null)
             {
-                Application.Current.MainPage.DisplayAlert("Oops", $"We couldn't find group id {this.groupId}", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Oops", $"We couldn't find group id {this.groupId}", "Ok");
             }
             else
             {
                 var sessionParticipant = new SessionParticipant(guid, App._groupId, this.groupName, false, App._user.RowKey);
-                AzureDbClient.AddParticipantToGroup(sessionParticipant).ConfigureAwait(false);
+                await AzureDbClient.AddParticipantToGroup(sessionParticipant);
                 App._activeUsers = AzureDbClient.GetGroupParticipants(App._groupId);
 
-                Application.Current.MainPage.Navigation.PushAsync(new DataTablePage(), true);
+                await Application.Current.MainPage.Navigation.PushAsync(new DataTablePage(), true);
             }
         }
 

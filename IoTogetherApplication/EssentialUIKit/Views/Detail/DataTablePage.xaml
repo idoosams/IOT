@@ -39,9 +39,9 @@
                              Orientation="Horizontal"  VerticalOptions="FillAndExpand"  Spacing="0">
 
                     <!--  Back button command  -->
-                    <buttons:SfButton  x:Name="backButton"  Command="{Binding BackButtonCommand}"
+                    <buttons:SfButton  x:Name="backButton"  Command="{Binding MapClicked}"
                                        CommandParameter="{x:Reference backButton}" CornerRadius="4"
-                                       Style="{StaticResource IconButtonStyle}" Text="{StaticResource Back}"/>
+                                       Style="{StaticResource IconButtonStyle}" ShowIcon="True" ImageSource="Map.png" ImageWidth="38"/>
 
                     <!--   Group id label  -->
                     <Label  Margin="16,0" FontFamily="{StaticResource Montserrat-Medium}" FontSize="16"
