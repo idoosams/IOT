@@ -120,8 +120,8 @@ namespace EssentialUIKit.ViewModels
         {
             string guid = Guid.NewGuid().ToString("N");
             App._groupId = this.groupId;
-            App._groupName = this.groupName;
             this.groupName = AzureDbClient.GroupIdToName(App._groupId);
+            App._groupName = this.groupName;
             if (this.groupName == null)
             {
                 Application.Current.MainPage.DisplayAlert("Oops", $"We couldn't find group id {this.groupId}", "Ok");
