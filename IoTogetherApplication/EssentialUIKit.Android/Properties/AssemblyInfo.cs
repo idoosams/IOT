@@ -42,5 +42,5 @@ using Android.App;
 // Battery
 [assembly: UsesPermission(Android.Manifest.Permission.BatteryStats)]
 
-// Netowrk Connectivity
+// Network Connectivity
 [assembly: UsesPermission(Android.Manifest.Permission.AccessNetworkState)]
