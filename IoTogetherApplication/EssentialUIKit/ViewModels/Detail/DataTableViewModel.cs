@@ -118,17 +118,16 @@ namespace EssentialUIKit.ViewModels.Detail
 
         async Task methodRunPeriodically()
         {
+            this.Items = new List<DataTable>();
             while (true)
             {
                 var participantsFromTable = App._activeUsers;
-                this.Items = new List<DataTable>();
                 foreach (var participant in participantsFromTable)
                 {
                     this.Items.Add(new DataTable
                     {
                         //   RowKey = participant.RowKey,
-                        FirstName = participant.FirstName,
-                        LastName = participant.LastName,
+                        Name = participant.FirstName+ " " + participant.LastName,
                         Phone = participant.Phone,                        
                         BatteryPercentageDiagram = CreateBatteryColorView(Battery.ChargeLevel) // TODO: get this propertry from server, not from client!
                     });

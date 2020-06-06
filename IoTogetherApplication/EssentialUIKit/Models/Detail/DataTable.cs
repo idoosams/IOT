@@ -17,14 +17,9 @@ namespace EssentialUIKit.Models.Detail
         public string RowKey { get; set; }
 
         /// <summary>
-        /// Gets or sets the FirstName .
+        /// Gets or sets the Name.
         /// </summary>
-        public string FirstName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the LastName.
-        /// </summary>
-        public string LastName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the Phone.
