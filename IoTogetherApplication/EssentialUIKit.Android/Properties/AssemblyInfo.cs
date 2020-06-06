@@ -32,7 +32,7 @@ using Android.App;
 [assembly: UsesPermission(Android.Manifest.Permission.Internet)]
 [assembly: UsesPermission(Android.Manifest.Permission.WriteExternalStorage)]
 
-/*// GPS
+// GPS
 [assembly: UsesPermission(Android.Manifest.Permission.AccessCoarseLocation)]
 [assembly: UsesPermission(Android.Manifest.Permission.AccessFineLocation)]
 [assembly: UsesFeature("android.hardware.location", Required = false)]
@@ -43,4 +43,4 @@ using Android.App;
 [assembly: UsesPermission(Android.Manifest.Permission.BatteryStats)]
 
 // Netowrk Connectivity
-[assembly: UsesPermission(Android.Manifest.Permission.AccessNetworkState)]*/
+[assembly: UsesPermission(Android.Manifest.Permission.AccessNetworkState)]
