@@ -31,6 +31,7 @@ namespace EssentialUIKit.ViewModels.Detail
         /// </summary>
         public DataTableViewModel()
         {
+            this.Items = new List<DataTable>();
             Task.Factory.StartNew(() => methodRunPeriodically());
         }
         #endregion
@@ -118,20 +119,21 @@ namespace EssentialUIKit.ViewModels.Detail
 
         async Task methodRunPeriodically()
         {
-            this.Items = new List<DataTable>();
             while (true)
             {
                 var participantsFromTable = App._activeUsers;
+                var tmp = new List<DataTable>();
                 foreach (var participant in participantsFromTable)
                 {
-                    this.Items.Add(new DataTable
+                    tmp.Add(new DataTable
                     {
                         //   RowKey = participant.RowKey,
                         Name = participant.FirstName+ " " + participant.LastName,
                         Phone = participant.Phone,                        
-                        BatteryPercentageDiagram = CreateBatteryColorView(Battery.ChargeLevel) // TODO: get this propertry from server, not from client!
+                        BatteryPercentageDiagram = CreateBatteryColorView(Battery.ChargeLevel*100) // TODO: get this propertry from server, not from client!
                     });
                 }
+                Items = tmp;
                 await Task.Delay(3000); //Refresh every 3 seconds
             }
         }
