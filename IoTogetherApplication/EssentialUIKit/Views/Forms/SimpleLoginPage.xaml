@@ -51,7 +51,7 @@
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="140" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -60,8 +60,16 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
+                    <Image
+                        Grid.Row="1" 
+                        Source="Logo2.png"
+                        Aspect="AspectFit"
+                        HorizontalOptions="CenterAndExpand"/>
+                    
                     <!--  Label to display the title of this page  -->
                     <Label
+                        Grid.Row="2"
+                        Margin="0,50,0,0"
                         FontFamily="{StaticResource Montserrat-SemiBold}"
                         FontSize="20"
                         HorizontalTextAlignment="Center"
@@ -71,7 +79,7 @@
 
                     <!--  Label to display the description of this page  -->
                     <Label
-                        Grid.Row="1"
+                        Grid.Row="3"
                         Margin="0,8"
                         FontFamily="{StaticResource Montserrat-Medium}"
                         HorizontalTextAlignment="Center"
@@ -80,11 +88,11 @@
                         TextColor="{DynamicResource Gray-800}" />
 
                     <!--  Entry to get email ID from user  -->
-                    <local:SimpleEmailEntry Grid.Row="2" Padding="0,24" />
+                    <local:SimpleEmailEntry Grid.Row="4" Padding="0,24" />
 
                     <!--  Entry to get password from user  -->
                     <border:SfBorder
-                        Grid.Row="3"
+                        Grid.Row="5"
                         BackgroundColor="{DynamicResource Gray-White}"
                         BorderColor="{Binding Source={x:Reference PasswordEntry}, Path=IsFocused, Converter={StaticResource ColorConverter}, ConverterParameter=3}"
                         Style="{StaticResource SfBorderStyle}">
@@ -115,7 +123,7 @@
 
                     <!--  Login button  -->
                     <buttons:SfButton
-                        Grid.Row="5"
+                        Grid.Row="6"
                         Margin="0,16"
                         Command="{Binding LoginCommand}"
                         Style="{StaticResource SfButtonStyle}"
