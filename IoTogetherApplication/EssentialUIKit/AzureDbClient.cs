@@ -76,6 +76,11 @@ namespace EssentialUIKit
 
         public static ParticipantTableEntity TryGetUser(string email, string password)
         {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                return null;
+            }
+
             var query = new TableQuery<ParticipantTableEntity>();
             query.Where(TableQuery.CombineFilters(
                 TableQuery.GenerateFilterCondition("Email", QueryComparisons.Equal, email),
