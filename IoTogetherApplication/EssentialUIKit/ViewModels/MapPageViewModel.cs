@@ -49,7 +49,8 @@ namespace EssentialUIKit.ViewModels
 
         public async static Task<MapPage> GetMap(string groupId)
         {
-            //TODO: get using GetGroupStats(groupId)
+            //TODO: add call to DB
+            //cords = GetGroupStats(groupId)
             var latlong1 = new List<double> { 12, 12 };
             var latlong2 = new List<double> { 12.1, 12.1 };
             var latlong3 = new List<double> { 11.9, 11.9 };
