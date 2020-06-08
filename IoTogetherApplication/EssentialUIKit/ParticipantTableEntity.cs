@@ -18,7 +18,7 @@ namespace EssentialUIKit
         public string Email { get; set; }
         public string Password { get; set; }
 
-        public ParticipantTableEntity(Participant participant, string asd=null)
+        public ParticipantTableEntity(Participant participant)
         {
             PartitionKey = "";
             RowKey = participant.id;
@@ -33,7 +33,6 @@ namespace EssentialUIKit
 
         public ParticipantTableEntity()
         {
-
         }
     }
 }

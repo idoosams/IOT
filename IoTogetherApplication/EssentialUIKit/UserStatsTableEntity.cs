@@ -1,28 +1,30 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Essentials;
 
 namespace EssentialUIKit
 {
     public class UserStatsTableEntity : TableEntity
     {
+        public string Id { get; set; }
+        public double Latitude { get; set; }
+        public double Longtitude { get; set; }
+        public double Speed { get; set; }
+        public double BaterryCharge { get; set; }
+        public bool Connectivity { get; set; }
         
-        double latitude; //Geolocation
-        double longtitude; //Geolocation
-        double speed;//Geolocation
-        double baterry_charge;//Battery
-        bool connectivity;//Connectivity
-        
-        public UserStatsTableEntity(double latitude, double longtitude, double speed, double battery_charge, bool connectivity)
+        public UserStatsTableEntity(string id, double latitude, double longtitude, double speed, double batteryCharge, bool connectivity)
         {
-            this.latitude = latitude;
-            this.longtitude = longtitude;
-            this.speed = speed;
-            this.baterry_charge = battery_charge;
-            this.connectivity = connectivity;
-            
+            PartitionKey = "";
+            RowKey = id;
+            Latitude = latitude;
+            Longtitude = longtitude;
+            Speed = speed;
+            BaterryCharge = batteryCharge;
+            Connectivity = connectivity;            
+        }
+
+        public UserStatsTableEntity()
+        {
+
         }
     }
 }
