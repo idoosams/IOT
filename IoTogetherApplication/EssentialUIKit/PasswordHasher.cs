@@ -13,6 +13,10 @@ namespace EssentialUIKit
 
         public static string GetHashString(string inputString)
         {
+            if (string.IsNullOrEmpty(inputString))
+            {
+                return "";
+            }
             StringBuilder sb = new StringBuilder();
             foreach (byte b in GetHash(inputString))
                 sb.Append(b.ToString("X2"));
