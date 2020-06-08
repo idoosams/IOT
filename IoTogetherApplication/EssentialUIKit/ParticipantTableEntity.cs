@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
+using Xamarin.Essentials;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -32,7 +33,6 @@ namespace EssentialUIKit
 
         public ParticipantTableEntity()
         {
-
         }
     }
 }
