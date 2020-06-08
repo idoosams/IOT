@@ -15917,28 +15917,31 @@ namespace EssentialUIKit.Droid
 			public const int sfprogressbar_indeterminate_linear = 2131165586;
 			
 			// aapt resource value: 0x7F070193
-			public const int SplashScreen = 2131165587;
+			public const int Splash3 = 2131165587;
 			
 			// aapt resource value: 0x7F070194
-			public const int SplashScreen2 = 2131165588;
+			public const int SplashScreen = 2131165588;
 			
 			// aapt resource value: 0x7F070195
-			public const int SplashScreen3 = 2131165589;
+			public const int SplashScreen2 = 2131165589;
 			
 			// aapt resource value: 0x7F070196
-			public const int TimeZone = 2131165590;
+			public const int SplashScreen3 = 2131165590;
 			
 			// aapt resource value: 0x7F070197
-			public const int tooltip_frame_dark = 2131165591;
+			public const int TimeZone = 2131165591;
 			
 			// aapt resource value: 0x7F070198
-			public const int tooltip_frame_light = 2131165592;
+			public const int tooltip_frame_dark = 2131165592;
 			
 			// aapt resource value: 0x7F070199
-			public const int ViewMode = 2131165593;
+			public const int tooltip_frame_light = 2131165593;
 			
 			// aapt resource value: 0x7F07019A
-			public const int Visa = 2131165594;
+			public const int ViewMode = 2131165594;
+			
+			// aapt resource value: 0x7F07019B
+			public const int Visa = 2131165595;
 			
 			static Drawable()
 			{
