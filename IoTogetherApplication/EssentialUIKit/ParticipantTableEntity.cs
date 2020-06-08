@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
+using Xamarin.Essentials;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,7 @@ namespace EssentialUIKit
         public string Email { get; set; }
         public string Password { get; set; }
 
-        public ParticipantTableEntity(Participant participant)
+        public ParticipantTableEntity(Participant participant, string asd=null)
         {
             PartitionKey = "";
             RowKey = participant.id;
