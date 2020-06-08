@@ -9,20 +9,29 @@ namespace EssentialUIKit
     public class UserStatsTableEntity : TableEntity
     {
         
-        double latitude; //Geolocation
-        double longtitude; //Geolocation
-        double speed;//Geolocation
-        double baterryCharge;//Battery
-        bool connectivity;//Connectivity
-        
-        public UserStatsTableEntity(double latitude, double longtitude, double speed, double batteryCharge, bool connectivity)
+        double Latitude { get; set; } //Geolocation
+        double Longtitude { get; set; } //Geolocation
+        double Speed { get; set; }//Geolocation
+        double BaterryCharge { get; set; }//Battery
+        bool Connectivity { get; set; }//Connectivity
+        string Id { get; set; }
+
+
+        public UserStatsTableEntity(double Latitude, double Longtitude, double Speed, double BatteryCharge, bool Connectivity, string Id)
         {
-            this.latitude = latitude;
-            this.longtitude = longtitude;
-            this.speed = speed;
-            this.baterryCharge = batteryCharge;
-            this.connectivity = connectivity;
+            PartitionKey = "";
+            RowKey = Id;
+            this.Latitude = Latitude;
+            this.Longtitude = Longtitude;
+            this.Speed = Speed;
+            this.BaterryCharge = BatteryCharge;
+            this.Connectivity = Connectivity;
+            this.Id = Id;
             
+        }
+        public UserStatsTableEntity()
+        {
+
         }
     }
 }
