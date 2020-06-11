@@ -38,45 +38,7 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
     <PackageReference Include="Xamarin.Forms" Version="4.3.0.991250" />
     <PackageReference Include="Syncfusion.Xamarin.Core" Version="17.4.0.44" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="AppLayout\Icons\bookmark.png" />
-    <None Remove="AppLayout\Icons\catalog.png" />
-    <None Remove="AppLayout\Icons\detail.png" />
-    <None Remove="AppLayout\Icons\details.png" />
-    <None Remove="AppLayout\Icons\forms.png" />
-    <None Remove="AppLayout\Icons\history.png" />
-    <None Remove="AppLayout\Icons\notification.png" />
-    <None Remove="AppLayout\Icons\profile.png" />
-    <None Remove="AppLayout\Icons\social.png" />
-    <None Remove="AppLayout\Icons\transaction.png" />
-    <None Remove="AppLayout\TemplateList.xml" />
-    <None Remove="Data\deliverytracking.json" />
-    <None Remove="DataService\trainstatus.json" />
-    <None Remove="Data\ecommerce.json" />
-    <None Remove="Data\navigation.json" />
-    <None Remove="Data\notification.json" />
-    <None Remove="Data\timeline.json" />
-    <None Remove="Images\CaloriesEaten.svg" />
-    <None Remove="Images\ChooseGradient.svg" />
-    <None Remove="Images\ConfirmGradient.svg" />
-    <None Remove="Images\DeliverGradient.svg" />
-    <None Remove="Images\EmptyCart.svg" />
-    <None Remove="Images\HeartRate.svg" />
-    <None Remove="Images\LocationAccessDenied.svg" />
-    <None Remove="Images\NoCredits.svg" />
-    <None Remove="Images\NoInternet.svg" />
-    <None Remove="Images\NoItem.svg" />
-    <None Remove="Images\NoPhotos.svg" />
-    <None Remove="Images\NoTasks.svg" />
-    <None Remove="Images\NotEnoughCredit.svg" />
-    <None Remove="Images\NoVideos.svg" />
-    <None Remove="Images\PaymentFailed.svg" />
-    <None Remove="Images\PaymentFailure.svg" />
-    <None Remove="Images\PaymentSuccess.svg" />
-    <None Remove="Images\SleepDuration.svg" />
-    <None Remove="Images\SomethingWentWrong.svg" />
-    <None Remove="Images\WaterConsumed.svg" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="4.3.0.991250" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AppLayout\Icons\about-us.png" />
@@ -156,6 +118,9 @@
     </Compile>
     <Compile Update="Views\Bookmarks\BookmarksPage.xaml.cs">
       <DependentUpon>BookmarksPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MapPage.xaml.cs">
+      <DependentUpon>MapPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Dashboard\DailyCaloriesReportPage.xaml.cs">
       <DependentUpon>DailyCaloriesReportPage.xaml</DependentUpon>
