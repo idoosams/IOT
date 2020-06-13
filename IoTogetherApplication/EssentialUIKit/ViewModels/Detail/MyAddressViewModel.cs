@@ -20,7 +20,6 @@ namespace EssentialUIKit.ViewModels.Detail
         {
             this.BackCommand = new Command(this.BackButtonClicked);
             this.EditCommand = new Command(this.EditButtonClicked);
-            this.DeleteCommand = new Command(this.DeleteButtonClicked);
             this.AddCardCommand = new Command(this.AddCardButtonClicked);
 
             this.AddressDetails = new ObservableCollection<Address>()

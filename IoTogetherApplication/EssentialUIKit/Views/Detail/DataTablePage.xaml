@@ -38,7 +38,7 @@
                 <StackLayout x:Name="Title" HorizontalOptions="FillAndExpand"  IsVisible="True"
                              Orientation="Horizontal"  VerticalOptions="FillAndExpand"  Spacing="0">
 
-                    <!--  Back button command  -->
+                    <!--  Map button command  -->
                     <buttons:SfButton  x:Name="backButton"  Command="{Binding MapClicked}"
                                        CommandParameter="{x:Reference backButton}" CornerRadius="4"
                                        Style="{StaticResource IconButtonStyle}" ShowIcon="True" ImageSource="Map.png" ImageWidth="38"/>
@@ -161,11 +161,9 @@
             <buttons:SfButton
                         Grid.Row="12"
                         Margin="0,4"
-                        Command="{Binding JoinCommand}"
+                        Command="{Binding LeaveClicked}"
                         Style="{StaticResource SfButtonStyle}"
-                        Text="Leave Group"
-                        Clicked=""/>
-
+                        Text="Leave Group"/>
         </Grid>
         
     </ContentPage.Content>

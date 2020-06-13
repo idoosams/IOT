@@ -25,6 +25,16 @@ namespace EssentialUIKit
             return ((ParticipantTableEntity)result.Result);
         }
 
+        public async static void DeleteParticipantFromGroup(string rowKey)
+        {
+            TableOperation retrieve = TableOperation.Retrieve<SessionParticipantTableEntity>("", rowKey);
+            TableResult result = await GroupInfo.ExecuteAsync(retrieve);
+            SessionParticipantTableEntity entity = (SessionParticipantTableEntity)result.Result;
+            
+            TableOperation delete = TableOperation.Delete(entity);
+            await GroupInfo.ExecuteAsync(delete);
+        }
+
         public async static Task<ParticipantTableEntity> GetParticipant(string id)
         {
             TableOperation retrieve = TableOperation.Retrieve<ParticipantTableEntity>("", id);
