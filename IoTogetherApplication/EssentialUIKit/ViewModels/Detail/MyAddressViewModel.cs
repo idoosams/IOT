@@ -68,10 +68,7 @@ namespace EssentialUIKit.ViewModels.Detail
         /// Invoked when the delete button clicked
         /// </summary>
         /// <param name="obj">The object</param>
-        private void DeleteButtonClicked(object obj)
-        {
-            // Do something
-        }
+        
 
         /// <summary>
         /// Invoked when the add card button clicked

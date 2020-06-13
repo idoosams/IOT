@@ -119,7 +119,8 @@
                         Margin="0,16"
                         Command="{Binding JoinCommand}"
                         Style="{StaticResource SfButtonStyle}"
-                        Text="Join Group" />
+                        Text="Join Group"
+                        Clicked=""/>
                         
                 </Grid>
 

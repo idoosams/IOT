@@ -66,6 +66,11 @@ namespace EssentialUIKit.Views.Detail
             SearchEntry.Focus();
         }
 
+        private void leaveGroupClicked()
+        {
+
+        }
+
         /// <summary>
         /// Invoked when back to title button is clicked.
         /// </summary>
@@ -91,6 +96,7 @@ namespace EssentialUIKit.Views.Detail
 
             SearchEntry.Text = string.Empty;
         }
+        
 
         /// <summary>
         /// Invokes when search box Animation completed.
