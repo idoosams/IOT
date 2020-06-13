@@ -25,6 +25,8 @@ namespace EssentialUIKit
         #region Constructor
         public static ParticipantTableEntity _user { get; set; }
 
+        public static string _groupRowKey { get; set; }
+
         public static string _groupId { get; set; }
 
         public static string _groupName { get; set; }
