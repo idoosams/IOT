@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using EssentialUIKit.Models.Detail;
+using EssentialUIKit.Views.Forms;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -34,6 +35,7 @@ namespace EssentialUIKit.ViewModels.Detail
         {
             this.Items = new List<DataTable>();
             this.MapClicked = new Command(this.OnMapClick);
+            this.LeaveClicked = new Command(this.OnLeaveClick);
             Task.Factory.StartNew(() => methodRunPeriodically());
         }
         #endregion
@@ -41,6 +43,8 @@ namespace EssentialUIKit.ViewModels.Detail
         #region Public Properties
 
         public Command MapClicked { get; set; }
+
+        public Command LeaveClicked { get; set; }
 
         public string GroupName
         {
@@ -104,8 +108,13 @@ namespace EssentialUIKit.ViewModels.Detail
 
         #endregion
 
-
         #region Private Methods
+        public void OnLeaveClick()
+        {
+            AzureDbClient.DeleteParticipantFromGroup(App._groupRowKey);
+            Application.Current.MainPage.Navigation.PushAsync(new ChooseActionPage(), true);
+        }
+
         public async void OnMapClick()
         {
             var map = await MapPageViewModel.GetMap(App._groupId);

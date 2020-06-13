@@ -38,7 +38,7 @@
                 <StackLayout x:Name="Title" HorizontalOptions="FillAndExpand"  IsVisible="True"
                              Orientation="Horizontal"  VerticalOptions="FillAndExpand"  Spacing="0">
 
-                    <!--  Back button command  -->
+                    <!--  Map button command  -->
                     <buttons:SfButton  x:Name="backButton"  Command="{Binding MapClicked}"
                                        CommandParameter="{x:Reference backButton}" CornerRadius="4"
                                        Style="{StaticResource IconButtonStyle}" ShowIcon="True" ImageSource="Map.png" ImageWidth="38"/>
@@ -52,8 +52,9 @@
                     <Label  Margin="16,0" FontFamily="{StaticResource Montserrat-Medium}" FontSize="16"
                             HorizontalOptions="CenterAndExpand" TextColor="{DynamicResource Gray-900}"
                             LineHeight="1.25"  Text="{Binding GroupName}"  VerticalOptions="Center" VerticalTextAlignment="Center" />
-
+                    
                 </StackLayout>
+                
 
                 <StackLayout  x:Name="Search" HorizontalOptions="EndAndExpand" IsVisible="False"
                                 Orientation="Horizontal" Spacing="0">
@@ -93,7 +94,7 @@
 
                     <controls:SearchableDataTable.HeaderTemplate>
                         <DataTemplate>
-                            <Grid Grid.Row="2" HeightRequest="48" Margin="0,8,0,0" Padding="16,0,8,0" ColumnSpacing="0" BackgroundColor="{StaticResource Gray-100}">
+                            <Grid Grid.Row="2" HeightRequest="30" Margin="0,8,0,0" Padding="16,0,8,0" ColumnSpacing="0" BackgroundColor="{StaticResource Gray-100}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=3*}" />
                                     <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=3*}" />
@@ -110,6 +111,7 @@
                                    TextColor="{DynamicResource Gray-800}" VerticalOptions="Center"/>
                                 
                             </Grid>
+
                         </DataTemplate>
                     </controls:SearchableDataTable.HeaderTemplate>
                     
@@ -118,7 +120,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Margin="0" Spacing="0" >
-                                    <Grid HeightRequest="48" Margin="16,0,8,0" ColumnSpacing="0">
+                                    <Grid HeightRequest="30" Margin="16,0,8,0" ColumnSpacing="0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2.5*}" />
                                             <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2.5*}" />
@@ -145,14 +147,24 @@
                                                 </DataTemplate>
                                             </BindableLayout.ItemTemplate>
                                         </StackLayout>
+                                       
                                     </Grid>
                                     <BoxView Grid.Row="1" Grid.ColumnSpan="5" Style="{StaticResource SeparatorStyle}"/>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
+
                     </controls:SearchableDataTable.ItemTemplate>
                 </controls:SearchableDataTable>
+                
             </StackLayout>
+            <buttons:SfButton
+                        Grid.Row="12"
+                        Margin="0,4"
+                        Command="{Binding LeaveClicked}"
+                        Style="{StaticResource SfButtonStyle}"
+                        Text="Leave Group"/>
         </Grid>
+        
     </ContentPage.Content>
 </ContentPage>
