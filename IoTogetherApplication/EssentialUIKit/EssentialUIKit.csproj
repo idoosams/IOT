@@ -41,6 +41,13 @@
     <PackageReference Include="Xamarin.Forms.Maps" Version="4.3.0.991250" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Xamarin.Forms" Version="4.6.0.726" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="AppLayout\Icons\about-us.png" />
     <EmbeddedResource Include="AppLayout\Icons\article.png" />
     <EmbeddedResource Include="AppLayout\Icons\bookmark.png" />
