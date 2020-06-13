@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace EssentialUIKit
 {
@@ -14,6 +15,7 @@ namespace EssentialUIKit
         static readonly CloudTableClient TableClient = StorageAccount.CreateCloudTableClient();
         static readonly CloudTable UsersInfo = TableClient.GetTableReference("UsersInfo");
         static readonly CloudTable GroupInfo = TableClient.GetTableReference("GroupInfo");
+        static readonly CloudTable UserStats = TableClient.GetTableReference("UserStats");
         static readonly List<string> ParticipantIdColumn = new List<string> { "ParticipantId" };
         static readonly List<string> GroupColumns = new List<string> { "GroupId", "GroupName" };
 
@@ -23,6 +25,15 @@ namespace EssentialUIKit
             TableOperation replace = TableOperation.InsertOrReplace(entity);
             TableResult result = await UsersInfo.ExecuteAsync(replace);
             return ((ParticipantTableEntity)result.Result);
+        }
+
+        public async static Task<UserStatsTableEntity> SaveUserStats(string id)
+        {
+            var location = await Geolocation.GetLocationAsync();
+            var entity = new UserStatsTableEntity(id, location.Latitude, location.Longitude, (double)location.Speed, Battery.ChargeLevel, true);
+            TableOperation replace = TableOperation.InsertOrReplace(entity);
+            TableResult result = await UserStats.ExecuteAsync(replace);
+            return ((UserStatsTableEntity)result.Result);
         }
 
         public async static Task<ParticipantTableEntity> GetParticipant(string id)
@@ -92,6 +103,13 @@ namespace EssentialUIKit
                 return null;
             }
             return (ParticipantTableEntity)items.First();
+        }
+
+        public async static Task<UserStatsTableEntity> GetUserStats(string id)
+        {
+            TableOperation retrieve = TableOperation.Retrieve<UserStatsTableEntity>("", id);
+            TableResult result = await UserStats.ExecuteAsync(retrieve);
+            return ((UserStatsTableEntity)result.Result);
         }
 
         public async static Task<SessionParticipantTableEntity> AddParticipantToGroup(SessionParticipant sessionParticipant)
