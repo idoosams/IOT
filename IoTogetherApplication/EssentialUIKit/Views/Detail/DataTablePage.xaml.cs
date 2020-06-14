@@ -91,6 +91,7 @@ namespace EssentialUIKit.Views.Detail
 
             SearchEntry.Text = string.Empty;
         }
+        
 
         /// <summary>
         /// Invokes when search box Animation completed.
