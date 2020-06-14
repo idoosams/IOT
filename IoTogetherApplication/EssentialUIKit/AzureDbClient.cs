@@ -1,6 +1,7 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Azure.Documents;
 using Syncfusion.DataSource.Extensions;
+using Syncfusion.SfCalendar.XForms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace EssentialUIKit
         static readonly CloudTable UsersInfo = TableClient.GetTableReference("UsersInfo");
         static readonly CloudTable GroupInfo = TableClient.GetTableReference("GroupInfo");
         static readonly CloudTable UserStats = TableClient.GetTableReference("UserStats");
-        static readonly List<string> ParticipantIdColumn = new List<string> { "ParticipantId" };
+        static readonly List<string> ParticipantIdAndAdminColumn = new List<string> { "ParticipantId", "IsAdmin" };
         static readonly List<string> GroupColumns = new List<string> { "GroupId", "GroupName" };
 
         public async static Task<ParticipantTableEntity> SaveParticipant(Participant participant)
@@ -71,9 +72,10 @@ namespace EssentialUIKit
         {
             var query = new TableQuery<SessionParticipantTableEntity>();
             query.Where(TableQuery.GenerateFilterCondition("GroupId", QueryComparisons.Equal, groupId));
-            query.Select(ParticipantIdColumn);
-            var x = GroupInfo.ExecuteQuery(query).ToList();
-            List<string> participantsIds = GroupInfo.ExecuteQuery(query).ToList().Where(entry => !string.IsNullOrWhiteSpace(entry.ParticipantId)).Select(entry => entry.ParticipantId).ToList();
+            query.Select(ParticipantIdAndAdminColumn);
+            var result = GroupInfo.ExecuteQuery(query).ToList();
+            App._adminId = result.Find(u => u.IsAdmin == true).ParticipantId;
+            List<string> participantsIds = result.Where(entry => !string.IsNullOrWhiteSpace(entry.ParticipantId)).Select(entry => entry.ParticipantId).ToList();
 
             int i = 0;
             string activeUsersQuery = string.Empty;
@@ -96,13 +98,9 @@ namespace EssentialUIKit
             return activeUsers;
         }
 
-        public static Dictionary<string, UserStatsTableEntity> GetGroupStats(string groupId)
+        public static Dictionary<string, UserStatsTableEntity> GetGroupStats()
         {
-            var query = new TableQuery<SessionParticipantTableEntity>();
-            query.Where(TableQuery.GenerateFilterCondition("GroupId", QueryComparisons.Equal, groupId));
-            query.Select(ParticipantIdColumn);
-            var x = GroupInfo.ExecuteQuery(query).ToList();
-            List<string> participantsIds = GroupInfo.ExecuteQuery(query).ToList().Where(entry => !string.IsNullOrWhiteSpace(entry.ParticipantId)).Select(entry => entry.ParticipantId).ToList();
+            List<string> participantsIds = App._activeUsers.Select(x => x.RowKey).ToList();
 
             int i = 0;
             string activeUsersQuery = string.Empty;
@@ -123,6 +121,8 @@ namespace EssentialUIKit
 
             Dictionary<string, UserStatsTableEntity> dict = new Dictionary<string, UserStatsTableEntity>();
             UserStats.ExecuteQuery(finalQuery).ForEach(u => dict.Add(u.RowKey, u));
+
+            App._adminLocation = new List<double> { dict[App._adminId].Latitude, dict[App._adminId].Longtitude };
 
             return dict;
         }

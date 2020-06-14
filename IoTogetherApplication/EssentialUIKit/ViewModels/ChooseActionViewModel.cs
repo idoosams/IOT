@@ -110,7 +110,7 @@ namespace EssentialUIKit.ViewModels
             var sessionParticipant = new SessionParticipant(guid, App._groupId, this.groupName, true, App._user.RowKey);
             await AzureDbClient.AddParticipantToGroup(sessionParticipant);
             App._activeUsers = AzureDbClient.GetGroupParticipants(App._groupId);
-            await Application.Current.MainPage.Navigation.PushAsync(new DataTablePage(), true);
+            await Application.Current.MainPage.Navigation.PushAsync(new DataTablePage(new Detail.DataTableViewModel()), true);
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace EssentialUIKit.ViewModels
                 await AzureDbClient.AddParticipantToGroup(sessionParticipant);
                 App._activeUsers = AzureDbClient.GetGroupParticipants(App._groupId);
 
-                await Application.Current.MainPage.Navigation.PushAsync(new DataTablePage(), true);
+                await Application.Current.MainPage.Navigation.PushAsync(new DataTablePage(new Detail.DataTableViewModel()), true);
             }
         }
 

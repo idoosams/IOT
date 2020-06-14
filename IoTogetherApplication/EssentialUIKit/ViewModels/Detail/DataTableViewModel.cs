@@ -36,7 +36,6 @@ namespace EssentialUIKit.ViewModels.Detail
             this.Items = new List<DataTable>();
             this.MapClicked = new Command(this.OnMapClick);
             this.LeaveClicked = new Command(this.OnLeaveClick);
-            Task.Factory.StartNew(() => methodRunPeriodically());
         }
         #endregion
 
@@ -119,46 +118,6 @@ namespace EssentialUIKit.ViewModels.Detail
         {
             var map = await MapPageViewModel.GetMap(App._groupId);
             await Application.Current.MainPage.Navigation.PushAsync(map);
-        }
-
-        private string[] CreateBatteryColorView(double batteryPercentage)
-        {
-            if (batteryPercentage <= 15)
-                return new string[5] { "#ff4a4a", "#b2b8c2", "#b2b8c2", "#b2b8c2", "#b2b8c2" };
-            else if (batteryPercentage <= 30)
-                return new string[5] { "#ff4a4a", "#ff4a4a", "#b2b8c2", "#b2b8c2", "#b2b8c2" };
-            else if (batteryPercentage <= 50)
-                return new string[5] { "#7ed321", "#7ed321", "#7ed321", "#b2b8c2", "#b2b8c2" };
-            else if (batteryPercentage <= 80)
-                return new string[5] { "#7ed321", "#7ed321", "#7ed321", "#7ed321", "#b2b8c2" };
-            else
-                return new string[5] { "#7ed321", "#7ed321", "#7ed321", "#7ed321", "#7ed321" };
-        }
-
-        async Task methodRunPeriodically()
-        {
-            while (true)
-            {               
-                var participantsFromTable = App._activeUsers;                               
-                var tmp = new List<DataTable>();
-
-                UserStatsTableEntity statEntity;
-
-                foreach (var participant in participantsFromTable)
-                {
-                    if (App._userStats.TryGetValue(participant.RowKey, out statEntity))
-                    {
-                        tmp.Add(new DataTable
-                        {
-                            Name = $"{participant.FirstName} {participant.LastName}",
-                            Phone = participant.Phone,
-                            BatteryPercentageDiagram = statEntity == null ? new string[5] { "#b2b8c2", "#b2b8c2", "#b2b8c2", "#b2b8c2", "#b2b8c2" } : CreateBatteryColorView(statEntity.BaterryCharge * 100)
-                        });
-                    }
-                }
-                Items = tmp;
-                await Task.Delay(3000); //Refresh every 3 seconds
-            }
         }
 
         #endregion

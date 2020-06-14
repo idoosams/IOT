@@ -36,6 +36,10 @@ namespace EssentialUIKit
 
         public static Dictionary<string, UserStatsTableEntity> _userStats { get; set; }
 
+        public static string _adminId { get; set; }
+
+        public static List<double> _adminLocation { get; set; }
+
         //public static UserStatsTableEntity _stats { get; set; }
 
         /// <summary>
@@ -108,9 +112,9 @@ namespace EssentialUIKit
                     var participantsFromTable = AzureDbClient.GetGroupParticipants(App._groupId);
                     App._activeUsers = participantsFromTable;
 
-                    App._userStats = AzureDbClient.GetGroupStats(App._groupId);
+                    App._userStats = AzureDbClient.GetGroupStats();
                 }
-                await Task.Delay(3000); //Refresh every 3 seconds
+                await Task.Delay(3000);
             }
         }
 
