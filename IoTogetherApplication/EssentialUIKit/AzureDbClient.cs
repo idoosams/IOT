@@ -1,10 +1,13 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Azure.Documents;
+using Syncfusion.DataSource.Extensions;
+using Syncfusion.SfCalendar.XForms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace EssentialUIKit
 {
@@ -14,7 +17,8 @@ namespace EssentialUIKit
         static readonly CloudTableClient TableClient = StorageAccount.CreateCloudTableClient();
         static readonly CloudTable UsersInfo = TableClient.GetTableReference("UsersInfo");
         static readonly CloudTable GroupInfo = TableClient.GetTableReference("GroupInfo");
-        static readonly List<string> ParticipantIdColumn = new List<string> { "ParticipantId" };
+        static readonly CloudTable UserStats = TableClient.GetTableReference("UserStats");
+        static readonly List<string> ParticipantIdAndAdminColumn = new List<string> { "ParticipantId", "IsAdmin" };
         static readonly List<string> GroupColumns = new List<string> { "GroupId", "GroupName" };
 
         public async static Task<ParticipantTableEntity> SaveParticipant(Participant participant)
@@ -23,6 +27,15 @@ namespace EssentialUIKit
             TableOperation replace = TableOperation.InsertOrReplace(entity);
             TableResult result = await UsersInfo.ExecuteAsync(replace);
             return ((ParticipantTableEntity)result.Result);
+        }
+
+        public async static Task<UserStatsTableEntity> SaveUserStats(string id)
+        {
+            var location = await Geolocation.GetLocationAsync();
+            var entity = new UserStatsTableEntity(id, location.Latitude, location.Longitude, (double)location.Speed, Battery.ChargeLevel, true);
+            TableOperation replace = TableOperation.InsertOrReplace(entity);
+            TableResult result = await UserStats.ExecuteAsync(replace);
+            return ((UserStatsTableEntity)result.Result);
         }
 
         public async static void DeleteParticipantFromGroup(string rowKey)
@@ -59,9 +72,10 @@ namespace EssentialUIKit
         {
             var query = new TableQuery<SessionParticipantTableEntity>();
             query.Where(TableQuery.GenerateFilterCondition("GroupId", QueryComparisons.Equal, groupId));
-            query.Select(ParticipantIdColumn);
-            var x = GroupInfo.ExecuteQuery(query).ToList();
-            List<string> participantsIds = GroupInfo.ExecuteQuery(query).ToList().Where(entry => !string.IsNullOrWhiteSpace(entry.ParticipantId)).Select(entry => entry.ParticipantId).ToList();
+            query.Select(ParticipantIdAndAdminColumn);
+            var result = GroupInfo.ExecuteQuery(query).ToList();
+            App._adminId = result.Find(u => u.IsAdmin == true).ParticipantId;
+            List<string> participantsIds = result.Where(entry => !string.IsNullOrWhiteSpace(entry.ParticipantId)).Select(entry => entry.ParticipantId).ToList();
 
             int i = 0;
             string activeUsersQuery = string.Empty;
@@ -84,6 +98,35 @@ namespace EssentialUIKit
             return activeUsers;
         }
 
+        public static Dictionary<string, UserStatsTableEntity> GetGroupStats()
+        {
+            List<string> participantsIds = App._activeUsers.Select(x => x.RowKey).ToList();
+
+            int i = 0;
+            string activeUsersQuery = string.Empty;
+            foreach (string id in participantsIds)
+            {
+                i++;
+                if (i == 1) { activeUsersQuery = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id); }
+                else
+                {
+                    activeUsersQuery = TableQuery.CombineFilters(
+                        activeUsersQuery,
+                        TableOperators.Or,
+                        TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id)
+                        );
+                }
+            }
+            TableQuery<UserStatsTableEntity> finalQuery = new TableQuery<UserStatsTableEntity>().Where(activeUsersQuery);
+
+            Dictionary<string, UserStatsTableEntity> dict = new Dictionary<string, UserStatsTableEntity>();
+            UserStats.ExecuteQuery(finalQuery).ForEach(u => dict.Add(u.RowKey, u));
+
+            App._adminLocation = new List<double> { dict[App._adminId].Latitude, dict[App._adminId].Longtitude };
+
+            return dict;
+        }
+
         public static ParticipantTableEntity TryGetUser(string email, string password)
         {
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
@@ -102,6 +145,13 @@ namespace EssentialUIKit
                 return null;
             }
             return (ParticipantTableEntity)items.First();
+        }
+
+        public async static Task<UserStatsTableEntity> GetUserStats(string id)
+        {
+            TableOperation retrieve = TableOperation.Retrieve<UserStatsTableEntity>("", id);
+            TableResult result = await UserStats.ExecuteAsync(retrieve);
+            return ((UserStatsTableEntity)result.Result);
         }
 
         public async static Task<SessionParticipantTableEntity> AddParticipantToGroup(SessionParticipant sessionParticipant)

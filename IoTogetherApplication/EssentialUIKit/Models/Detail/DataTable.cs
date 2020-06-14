@@ -27,6 +27,16 @@ namespace EssentialUIKit.Models.Detail
         public string Phone { get; set; }
 
         /// <summary>
+        /// Gets or sets the Emergency Phone.
+        /// </summary>
+        public string EmergencyPhone { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Distance.
+        /// </summary>
+        public int Distance { get; set; }
+
+        /// <summary>
         /// Gets or sets the BatteryPercentageDiagram.
         /// </summary>
         public string[] BatteryPercentageDiagram { get; set; }
