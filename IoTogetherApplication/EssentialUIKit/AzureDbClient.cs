@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Azure.Documents;
+using Syncfusion.DataSource.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,6 +84,37 @@ namespace EssentialUIKit
             List<ParticipantTableEntity> activeUsers = UsersInfo.ExecuteQuery(finalQuery).ToList();
 
             return activeUsers;
+        }
+
+        public static Dictionary<string, UserStatsTableEntity> GetGroupStats(string groupId)
+        {
+            var query = new TableQuery<SessionParticipantTableEntity>();
+            query.Where(TableQuery.GenerateFilterCondition("GroupId", QueryComparisons.Equal, groupId));
+            query.Select(ParticipantIdColumn);
+            var x = GroupInfo.ExecuteQuery(query).ToList();
+            List<string> participantsIds = GroupInfo.ExecuteQuery(query).ToList().Where(entry => !string.IsNullOrWhiteSpace(entry.ParticipantId)).Select(entry => entry.ParticipantId).ToList();
+
+            int i = 0;
+            string activeUsersQuery = string.Empty;
+            foreach (string id in participantsIds)
+            {
+                i++;
+                if (i == 1) { activeUsersQuery = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id); }
+                else
+                {
+                    activeUsersQuery = TableQuery.CombineFilters(
+                        activeUsersQuery,
+                        TableOperators.Or,
+                        TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id)
+                        );
+                }
+            }
+            TableQuery<UserStatsTableEntity> finalQuery = new TableQuery<UserStatsTableEntity>().Where(activeUsersQuery);
+
+            Dictionary<string, UserStatsTableEntity> dict = new Dictionary<string, UserStatsTableEntity>();
+            UserStats.ExecuteQuery(finalQuery).ForEach(u => dict.Add(u.RowKey, u));
+
+            return dict;
         }
 
         public static ParticipantTableEntity TryGetUser(string email, string password)

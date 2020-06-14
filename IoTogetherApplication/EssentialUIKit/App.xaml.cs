@@ -32,6 +32,8 @@ namespace EssentialUIKit
 
         public static List<ParticipantTableEntity> _activeUsers { get; set; }
 
+        public static Dictionary<string, UserStatsTableEntity> _userStats { get; set; }
+
         //public static UserStatsTableEntity _stats { get; set; }
 
         /// <summary>
@@ -93,14 +95,19 @@ namespace EssentialUIKit
         {
             while (true)
             {
-                if (!string.IsNullOrWhiteSpace(App._groupId))
+                if (App._user != null)
                 {
-                    var participantsFromTable = AzureDbClient.GetGroupParticipants(App._groupId);
-                    App._activeUsers = participantsFromTable;
+                    await AzureDbClient.SaveUserStats(App._user.RowKey);
                 }
 
-                //await AzureDbClient.SaveUserStats(App._user.Id);
+                if (!string.IsNullOrWhiteSpace(App._groupId))
+                {                   
 
+                    var participantsFromTable = AzureDbClient.GetGroupParticipants(App._groupId);
+                    App._activeUsers = participantsFromTable;
+
+                    App._userStats = AzureDbClient.GetGroupStats(App._groupId);
+                }
                 await Task.Delay(3000); //Refresh every 3 seconds
             }
         }
