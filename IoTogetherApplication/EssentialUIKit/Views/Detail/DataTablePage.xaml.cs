@@ -1,8 +1,13 @@
 ﻿using EssentialUIKit.Controls;
+using EssentialUIKit.Models.Detail;
+using EssentialUIKit.ViewModels.Detail;
+using GeoCoordinatePortable;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
+using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 
 namespace EssentialUIKit.Views.Detail
@@ -14,9 +19,103 @@ namespace EssentialUIKit.Views.Detail
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DataTablePage : ContentPage
     {
+        private DataTableViewModel dataTableViewModel;
+
+        private bool continueRefresh = true;
+
         public DataTablePage()
         {
             InitializeComponent();
+        }
+
+        public DataTablePage(DataTableViewModel dataTableViewModel) : this()
+        {
+            this.dataTableViewModel = dataTableViewModel;
+            this.BindingContext = this.dataTableViewModel;
+
+            Device.StartTimer(TimeSpan.FromSeconds(3), () =>
+            {
+                if (continueRefresh)
+                {
+                    Device.BeginInvokeOnMainThread(() => RefreshView());
+                }
+                return true;
+            });
+        }   
+
+        private string[] CreateBatteryColorView(double batteryPercentage)
+        {
+            if (batteryPercentage <= 15)
+                return new string[5] { "#ff4a4a", "#b2b8c2", "#b2b8c2", "#b2b8c2", "#b2b8c2" };
+            else if (batteryPercentage <= 30)
+                return new string[5] { "#ff4a4a", "#ff4a4a", "#b2b8c2", "#b2b8c2", "#b2b8c2" };
+            else if (batteryPercentage <= 50)
+                return new string[5] { "#7ed321", "#7ed321", "#7ed321", "#b2b8c2", "#b2b8c2" };
+            else if (batteryPercentage <= 80)
+                return new string[5] { "#7ed321", "#7ed321", "#7ed321", "#7ed321", "#b2b8c2" };
+            else
+                return new string[5] { "#7ed321", "#7ed321", "#7ed321", "#7ed321", "#7ed321" };
+        }
+
+        private void RefreshView()
+        {
+            var participantsFromTable = App._activeUsers;
+            var tmp = new List<DataTable>();
+
+            UserStatsTableEntity statEntity;
+
+            foreach (var participant in participantsFromTable)
+            {
+                if (App._userStats != null && App._userStats.TryGetValue(participant?.RowKey, out statEntity))
+                {
+
+                    var adminLocation = new GeoCoordinate(App._adminLocation[0], App._adminLocation[1]);
+                    var userLocation = new GeoCoordinate(statEntity.Latitude, statEntity.Longtitude);
+                    var distanceFromAdmin = (int)adminLocation.GetDistanceTo(userLocation);
+                    var chargeLevel = statEntity.BaterryCharge;
+
+                    tmp.Add(new DataTable
+                    {
+                        Name = $"{participant.FirstName} {participant.LastName}",
+                        Phone = participant.Phone,
+                        BatteryPercentageDiagram = CreateBatteryColorView(chargeLevel * 100),
+                        Distance = distanceFromAdmin,
+                    });
+
+                    /*if (chargeLevel <= 0.15)
+                    {
+                        this.continueRefresh = false;
+                        var ack = await Application.Current.MainPage.DisplayAlert("Alert!", $"Seems like {participant.FirstName} {participant.LastName} is loosing connection!", "Call", "Dismiss");
+                        if (ack)
+                        {
+                            await Task.Delay(5000);
+                            this.continueRefresh = true;
+                        } else
+                        {
+                            await Task.Delay(5000);
+                            this.continueRefresh = true;
+                        }                 
+                    }
+
+                    if (distanceFromAdmin >= 5000)
+                    {
+                        this.continueRefresh = false;
+                        var ack = await Application.Current.MainPage.DisplayAlert("Alert!", $"Seems like {participant.FirstName} {participant.LastName} is getting far away!", "Call", "Dismiss");
+                        if (ack)
+                        {
+                            await Task.Delay(5000);
+                            this.continueRefresh = true;
+                        }
+                        else
+                        {
+                            await Task.Delay(5000);
+                            this.continueRefresh = true;
+                        }
+                    }*/
+
+                }
+            }
+            this.dataTableViewModel.Items = tmp;
         }
 
         /// <summary>
@@ -91,6 +190,7 @@ namespace EssentialUIKit.Views.Detail
 
             SearchEntry.Text = string.Empty;
         }
+        
 
         /// <summary>
         /// Invokes when search box Animation completed.
@@ -99,6 +199,6 @@ namespace EssentialUIKit.Views.Detail
         {
             this.Search.IsVisible = false;
             this.Title.IsVisible = true;
-        }
+        }        
     }
 }
