@@ -38,7 +38,7 @@
                 <StackLayout x:Name="Title" HorizontalOptions="FillAndExpand"  IsVisible="True"
                              Orientation="Horizontal"  VerticalOptions="FillAndExpand"  Spacing="0">
 
-                    <!--  Back button command  -->
+                    <!--  Map button command  -->
                     <buttons:SfButton  x:Name="backButton"  Command="{Binding MapClicked}"
                                        CommandParameter="{x:Reference backButton}" CornerRadius="4"
                                        Style="{StaticResource IconButtonStyle}" ShowIcon="True" ImageSource="Map.png" ImageWidth="38"/>
@@ -52,8 +52,9 @@
                     <Label  Margin="16,0" FontFamily="{StaticResource Montserrat-Medium}" FontSize="16"
                             HorizontalOptions="CenterAndExpand" TextColor="{DynamicResource Gray-900}"
                             LineHeight="1.25"  Text="{Binding GroupName}"  VerticalOptions="Center" VerticalTextAlignment="Center" />
-
+                    
                 </StackLayout>
+                
 
                 <StackLayout  x:Name="Search" HorizontalOptions="EndAndExpand" IsVisible="False"
                                 Orientation="Horizontal" Spacing="0">
@@ -93,10 +94,11 @@
 
                     <controls:SearchableDataTable.HeaderTemplate>
                         <DataTemplate>
-                            <Grid Grid.Row="2" HeightRequest="48" Margin="0,8,0,0" Padding="16,0,8,0" ColumnSpacing="0" BackgroundColor="{StaticResource Gray-100}">
+                            <Grid Grid.Row="2" HeightRequest="30" Margin="0,8,0,0" Padding="16,0,8,0" ColumnSpacing="0" BackgroundColor="{StaticResource Gray-100}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=3*}" />
-                                    <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=3*}" />
+                                    <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2*}" />
+                                    <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2*}" />
+                                    <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2*}" />
                                     <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2*}" />
                                 </Grid.ColumnDefinitions>
 
@@ -106,27 +108,32 @@
                                 <Label  Grid.Column="1" HorizontalOptions="Center"  Text="Phone"  FontSize="12" FontFamily="{StaticResource Montserrat-SemiBold}"                                    
                                    TextColor="{DynamicResource Gray-800}" VerticalOptions="Center"/>
 
-                                <Label  Grid.Column="2" Grid.ColumnSpan="2" HorizontalOptions="Start"  Text="Battery Level"  FontSize="12" FontFamily="{StaticResource Montserrat-SemiBold}"                                
+                                <Label  Grid.Column="2" HorizontalOptions="Center"  Text="Battery"  FontSize="12" FontFamily="{StaticResource Montserrat-SemiBold}"                                
                                    TextColor="{DynamicResource Gray-800}" VerticalOptions="Center"/>
-                                
+
+                                <Label  Grid.Column="3" HorizontalOptions="Center"  Text="Distance"  FontSize="12" FontFamily="{StaticResource Montserrat-SemiBold}"                                
+                                   TextColor="{DynamicResource Gray-800}" VerticalOptions="Center"/>
+
                             </Grid>
+
                         </DataTemplate>
                     </controls:SearchableDataTable.HeaderTemplate>
-                    
+
                     <!--  List View for the table  -->
                     <controls:SearchableDataTable.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Margin="0" Spacing="0" >
-                                    <Grid HeightRequest="48" Margin="16,0,8,0" ColumnSpacing="0">
+                                    <Grid HeightRequest="30" Margin="16,0,8,0" ColumnSpacing="0">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2.5*}" />
-                                            <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2.5*}" />
+                                            <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2*}" />
+                                            <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2*}" />
+                                            <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2*}" />
                                             <ColumnDefinition Width="{OnIdiom Desktop=2.5*, Tablet=1*, Phone=2*}" />
                                         </Grid.ColumnDefinitions>
-                                        
+
                                         <!-- Name -->
-                                        <Label Grid.Column="0" Text="{Binding Name}"  FontSize="14" FontFamily="{StaticResource Montserrat-Medium}" 
+                                        <Label Grid.Column="0" Text="{Binding Name}"  FontSize="12" FontFamily="{StaticResource Montserrat-Medium}" 
                                         TextColor="{DynamicResource Gray-900}" VerticalOptions="Center" HorizontalOptions="Center" />
 
                                         <!--  phone number -->
@@ -134,25 +141,38 @@
                                         TextColor="{DynamicResource Gray-900}" VerticalOptions="Center" HorizontalOptions="Center" />
 
                                         <!--  Battery status -->
-                                        <StackLayout  x:Name="stackLayout" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Start" 
+                                        <StackLayout  x:Name="stackLayout" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" 
                                                       Orientation="Horizontal" Spacing="4"
                                                       BindableLayout.ItemsSource="{Binding BatteryPercentageDiagram}" WidthRequest="8" 
                                                       HeightRequest="8">
                                             <BindableLayout.ItemTemplate>
                                                 <DataTemplate>
-                                                    <BoxView  BackgroundColor="{Binding }" WidthRequest="8" 
+                                                    <BoxView  BackgroundColor="{Binding }" WidthRequest="8" HorizontalOptions="Center" 
                                                       HeightRequest="8"  CornerRadius="16" />
                                                 </DataTemplate>
                                             </BindableLayout.ItemTemplate>
                                         </StackLayout>
+
+                                        <!--  Distance -->
+                                        <Label  Grid.Column="3" Text="{Binding Distance}"  FontSize="12" FontFamily="{StaticResource Montserrat-Medium}" 
+                                        TextColor="{DynamicResource Gray-900}" VerticalOptions="Center" HorizontalOptions="Center" />
+
                                     </Grid>
                                     <BoxView Grid.Row="1" Grid.ColumnSpan="5" Style="{StaticResource SeparatorStyle}"/>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
+
                     </controls:SearchableDataTable.ItemTemplate>
                 </controls:SearchableDataTable>
+                <buttons:SfButton
+                        Grid.Row="12"
+                        Margin="0,4"
+                        Command="{Binding LeaveClicked}"
+                        Style="{StaticResource SfButtonStyle}"
+                        Text="Leave Group"/>
             </StackLayout>
         </Grid>
+        
     </ContentPage.Content>
 </ContentPage>

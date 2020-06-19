@@ -4,6 +4,7 @@ using EssentialUIKit.Views.Forms;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 #if EnableAppCenterAnalytics
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
@@ -25,11 +26,21 @@ namespace EssentialUIKit
         #region Constructor
         public static ParticipantTableEntity _user { get; set; }
 
+        public static string _groupRowKey { get; set; }
+
         public static string _groupId { get; set; }
 
         public static string _groupName { get; set; }
 
         public static List<ParticipantTableEntity> _activeUsers { get; set; }
+
+        public static Dictionary<string, UserStatsTableEntity> _userStats { get; set; }
+
+        public static string _adminId { get; set; }
+
+        public static List<double> _adminLocation { get; set; }
+
+        //public static UserStatsTableEntity _stats { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="App" /> class.
@@ -90,12 +101,20 @@ namespace EssentialUIKit
         {
             while (true)
             {
-                if (!string.IsNullOrWhiteSpace(App._groupId))
+                if (App._user != null)
                 {
+                    await AzureDbClient.SaveUserStats(App._user.RowKey);
+                }
+
+                if (!string.IsNullOrWhiteSpace(App._groupId))
+                {                   
+
                     var participantsFromTable = AzureDbClient.GetGroupParticipants(App._groupId);
                     App._activeUsers = participantsFromTable;
-                }                
-                await Task.Delay(3000); //Refresh every 3 seconds
+
+                    App._userStats = AzureDbClient.GetGroupStats();
+                }
+                await Task.Delay(3000);
             }
         }
 

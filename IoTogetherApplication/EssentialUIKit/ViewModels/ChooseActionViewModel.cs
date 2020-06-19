@@ -106,10 +106,11 @@ namespace EssentialUIKit.ViewModels
             string guid = Guid.NewGuid().ToString("N");
             App._groupId = GenerateGroupId();
             App._groupName = this.groupName;
+            App._groupRowKey = guid;
             var sessionParticipant = new SessionParticipant(guid, App._groupId, this.groupName, true, App._user.RowKey);
             await AzureDbClient.AddParticipantToGroup(sessionParticipant);
             App._activeUsers = AzureDbClient.GetGroupParticipants(App._groupId);
-            await Application.Current.MainPage.Navigation.PushAsync(new DataTablePage(), true);
+            await Application.Current.MainPage.Navigation.PushAsync(new DataTablePage(new Detail.DataTableViewModel()), true);
         }
 
         /// <summary>
@@ -128,11 +129,12 @@ namespace EssentialUIKit.ViewModels
             }
             else
             {
+                App._groupRowKey = guid;
                 var sessionParticipant = new SessionParticipant(guid, App._groupId, this.groupName, false, App._user.RowKey);
                 await AzureDbClient.AddParticipantToGroup(sessionParticipant);
                 App._activeUsers = AzureDbClient.GetGroupParticipants(App._groupId);
 
-                await Application.Current.MainPage.Navigation.PushAsync(new DataTablePage(), true);
+                await Application.Current.MainPage.Navigation.PushAsync(new DataTablePage(new Detail.DataTableViewModel()), true);
             }
         }
 
