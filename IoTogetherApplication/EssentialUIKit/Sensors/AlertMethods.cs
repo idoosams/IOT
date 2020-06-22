@@ -8,7 +8,7 @@ namespace EssentialUIKit.Sensors
 {
     class AlertMethods
     {
-        public async double CheckGroupDistanceAsync()
+        /*public async double CheckGroupDistanceAsync()
         {
             var participants = App._activeUsers;
             var location = await Geolocation.GetLastKnownLocationAsync();
@@ -47,6 +47,6 @@ namespace EssentialUIKit.Sensors
                 }
             }
 
-        }
+        }*/
     }
 }
