@@ -28,30 +28,33 @@ namespace EssentialUIKit.Droid
 
         public override void OnMessageReceived(RemoteMessage message)
         {
+            base.OnMessageReceived(message);
+            string messageBody = string.Empty;
+
             Log.Debug(TAG, "From: " + message.From);
             if (message.GetNotification() != null)
             {
-                //These is how most messages will be received
-                Log.Debug(TAG, "Notification Message Body: " + message.GetNotification().Body);
-                SendNotification(message.GetNotification().Body);
+                messageBody = message.GetNotification().Body;
             }
             else
             {
-                //Only used for debugging payloads sent from the Azure portal
-                SendNotification(message.Data.Values.First());
-
+                messageBody = message.Data.Values.First();
             }
+
+            SendNotification(messageBody);
         }
 
         void SendNotification(string messageBody)
         {
             var intent = new Intent(this, typeof(MainActivity));
             intent.AddFlags(ActivityFlags.ClearTop);
-            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.OneShot);
+            intent.PutExtra("message", messageBody);
 
+            var requestCode = new Random().Next();
+            var pendingIntent = PendingIntent.GetActivity(this, requestCode, intent, PendingIntentFlags.OneShot);
             var notificationBuilder = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID);
 
-            notificationBuilder.SetContentTitle("FCM Message")
+            notificationBuilder.SetContentTitle("OnTrack Alert!")
                         .SetSmallIcon(Resource.Drawable.ic_launcher)
                         .SetContentText(messageBody)
                         .SetAutoCancel(true)
@@ -63,23 +66,22 @@ namespace EssentialUIKit.Droid
             notificationManager.Notify(0, notificationBuilder.Build());
         }
 
-    public override void OnNewToken(string token)
-    {
-        Log.Debug(TAG, "FCM token: " + token);
-        SendRegistrationToServer(token);
-    }
+        public override void OnNewToken(string token)
+        {
+            Log.Debug(TAG, "FCM token: " + token);
+            SendRegistrationToServer(token);
+        }
 
-    void SendRegistrationToServer(string token)
-    {
-        // Register with Notification Hubs
-        hub = new NotificationHub(Constants.NotificationHubName,
-                                    Constants.ListenConnectionString, this);
+        void SendRegistrationToServer(string token)
+        {
+            // Register with Notification Hubs
+            hub = new NotificationHub(Constants.NotificationHubName, Constants.ListenConnectionString, this);
 
-        var tags = new List<string>() { };
-        var regID = hub.Register(token, tags.ToArray()).RegistrationId;
+            var tags = new List<string>() { };
+            var regID = hub.Register(token, tags.ToArray()).RegistrationId;
 
-        Log.Debug(TAG, $"Successful registration of ID {regID}");
-    }
+            Log.Debug(TAG, $"Successful registration of ID {regID}");
+        }
 
     }
 }
