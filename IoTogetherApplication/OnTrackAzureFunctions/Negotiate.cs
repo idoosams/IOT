@@ -11,7 +11,7 @@ namespace OnTrackAzureFunctions
         public static SignalRConnectionInfo GetSignalRInfo(
             [HttpTrigger(AuthorizationLevel.Anonymous,"get",Route = "negotiate")]
             HttpRequest req,
-            [SignalRConnectionInfo(HubName = "simplechat")]
+            [SignalRConnectionInfo(HubName = "OnTrackHub")]
             SignalRConnectionInfo connectionInfo)
         {
             return connectionInfo;

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EssentialUIKit.Android", "E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EssentialUIKit", "EssentialUIKit\EssentialUIKit.csproj", "{D68E3E1C-745B-403B-8F7A-DDA13C502E8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnTrackAzureFunctions", "OnTrackAzureFunctions\OnTrackAzureFunctions.csproj", "{56D79CCA-125F-4D3F-AEB6-F8FEEA17190F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnTrackAzureFunctions", "OnTrackAzureFunctions\OnTrackAzureFunctions.csproj", "{56D79CCA-125F-4D3F-AEB6-F8FEEA17190F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -15,10 +15,10 @@ namespace EssentialUIKit
     {
         HttpClient client;
 
-        public delegate void MessageReceivedHandler(object sender, Message message);
+        public delegate void UserReceivedHandler(object sender, User user);
         public delegate void ConnectionHandler(object sender, bool successful, string message);
 
-        public event MessageReceivedHandler NewMessageReceived;
+        public event UserReceivedHandler NewUserReceived;
         public event ConnectionHandler Connected;
         public event ConnectionHandler ConnectionFailed;
         public bool IsConnected { get; private set; }
@@ -29,17 +29,11 @@ namespace EssentialUIKit
             client = new HttpClient();
         }
 
-        public async Task SendUserAsync(string username, string message)
+        public async Task SendUserAsync(User newUser)
         {
             IsBusy = true;
 
-            var newMessage = new User
-            {
-                Name = username,
-                Text = message
-            };
-
-            var json = JsonConvert.SerializeObject(newMessage);
+            var json = JsonConvert.SerializeObject(newUser);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var result = await client.PostAsync($"{Constants.HostName}/api/talk", content);
 
@@ -90,14 +84,14 @@ namespace EssentialUIKit
 
         void AddNewMessage(JObject message)
         {
-            Message messageModel = new Message
-            {
-                Name = message.GetValue("name").ToString(),
-                Text = message.GetValue("text").ToString(),
-                TimeReceived = DateTime.Now
-            };
+            //Message messageModel = new Message
+            //{
+            //    Name = message.GetValue("name").ToString(),
+            //    Text = message.GetValue("text").ToString(),
+            //    TimeReceived = DateTime.Now
+            //};
 
-            NewMessageReceived?.Invoke(this, messageModel);
+            //NewUserReceived?.Invoke(this, messageModel);
         }
 
     }
