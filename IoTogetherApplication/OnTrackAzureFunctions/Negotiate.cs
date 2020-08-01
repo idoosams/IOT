@@ -9,9 +9,9 @@ namespace OnTrackAzureFunctions
     {
         [FunctionName("Negotiate")]
         public static SignalRConnectionInfo GetSignalRInfo(
-            [HttpTrigger(AuthorizationLevel.Anonymous,"get",Route = "negotiate")]
+            [HttpTrigger(AuthorizationLevel.Anonymous,"get",Route = "{userId}/negotiate")]
             HttpRequest req,
-            [SignalRConnectionInfo(HubName = "OnTrackHub")]
+            [SignalRConnectionInfo(HubName = "OnTrackHub", UserId = "{userId}")]
             SignalRConnectionInfo connectionInfo)
         {
             return connectionInfo;

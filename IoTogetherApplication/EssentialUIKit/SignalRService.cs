@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EssentialUIKit.Models;
 using EssentialUIKit.Schema;
+using Xamarin.Essentials;
 
 namespace EssentialUIKit
 {
@@ -15,10 +16,10 @@ namespace EssentialUIKit
     {
         HttpClient client;
 
-        public delegate void UserReceivedHandler(object sender, User user);
+        public delegate Task UserStatsHandler(object sender, UserStats user);
         public delegate void ConnectionHandler(object sender, bool successful, string message);
 
-        public event UserReceivedHandler NewUserReceived;
+        public event UserStatsHandler NewUserStats;
         public event ConnectionHandler Connected;
         public event ConnectionHandler ConnectionFailed;
         public bool IsConnected { get; private set; }
@@ -40,13 +41,24 @@ namespace EssentialUIKit
             IsBusy = false;
         }
 
-        public async Task ConnectAsync()
+        public async Task SendUserStats(string userId)
+        {
+            var location = await Geolocation.GetLocationAsync();
+            var userStats = new UserStats(userId, location.Latitude, location.Longitude, (double)location.Speed, Battery.ChargeLevel, true);
+            var json = JsonConvert.SerializeObject(userStats);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var result = await client.PostAsync($"{Constants.HostName}/api/TableOutput", content);
+           
+            IsBusy = false;
+        }
+
+        public async Task ConnectAsync(string userId)
         {
             try
             {
                 IsBusy = true;
 
-                string negotiateJson = await client.GetStringAsync($"{Constants.HostName}/api/negotiate");
+                string negotiateJson = await client.GetStringAsync($"{Constants.HostName}/api/{userId}/negotiate");
                 NegotiateInfo negotiate = JsonConvert.DeserializeObject<NegotiateInfo>(negotiateJson);
 
                 HubConnection connection = new HubConnectionBuilder()
@@ -58,13 +70,13 @@ namespace EssentialUIKit
                     .Build();
 
                 connection.Closed += Connection_Closed;
-                connection.On<JObject>(Constants.MessageName, AddNewMessage);
+                connection.On<UserStats>("userStatsUpdate", UpdateNewUserStats);
                 await connection.StartAsync();
 
                 IsConnected = true;
                 IsBusy = false;
 
-                Connected?.Invoke(this, true, "Connection successful.");
+                //Connected?.Invoke(this, true, "Connection successful.");
             }
             catch (Exception ex)
             {
@@ -82,16 +94,10 @@ namespace EssentialUIKit
             return Task.CompletedTask;
         }
 
-        void AddNewMessage(JObject message)
+        void UpdateNewUserStats(UserStats jsonUserStats)
         {
-            //Message messageModel = new Message
-            //{
-            //    Name = message.GetValue("name").ToString(),
-            //    Text = message.GetValue("text").ToString(),
-            //    TimeReceived = DateTime.Now
-            //};
-
-            //NewUserReceived?.Invoke(this, messageModel);
+            var userStats = jsonUserStats;
+            NewUserStats?.Invoke(this, userStats);
         }
 
     }

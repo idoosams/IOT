@@ -1,10 +1,13 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Azure.Documents;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Syncfusion.DataSource.Extensions;
 using Syncfusion.SfCalendar.XForms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -27,15 +30,6 @@ namespace EssentialUIKit
             TableOperation replace = TableOperation.InsertOrReplace(entity);
             TableResult result = await UsersInfo.ExecuteAsync(replace);
             return ((ParticipantTableEntity)result.Result);
-        }
-
-        public async static Task<UserStatsTableEntity> SaveUserStats(string id)
-        {
-            var location = await Geolocation.GetLocationAsync();
-            var entity = new UserStatsTableEntity(id, location.Latitude, location.Longitude, (double)location.Speed, Battery.ChargeLevel, true);
-            TableOperation replace = TableOperation.InsertOrReplace(entity);
-            TableResult result = await UserStats.ExecuteAsync(replace);
-            return ((UserStatsTableEntity)result.Result);
         }
 
         public async static void DeleteParticipantFromGroup(string rowKey)
@@ -68,34 +62,13 @@ namespace EssentialUIKit
             return result.First().GroupName;
         }
 
-        public static List<ParticipantTableEntity> GetGroupParticipants(string groupId)
+        public static async Task<List<ParticipantTableEntity>> GetGroupParticipantsAsync(string groupId)
         {
-            var query = new TableQuery<SessionParticipantTableEntity>();
-            query.Where(TableQuery.GenerateFilterCondition("GroupId", QueryComparisons.Equal, groupId));
-            query.Select(ParticipantIdAndAdminColumn);
-            var result = GroupInfo.ExecuteQuery(query).ToList();
-            App._adminId = result.Find(u => u.IsAdmin == true).ParticipantId;
-            List<string> participantsIds = result.Where(entry => !string.IsNullOrWhiteSpace(entry.ParticipantId)).Select(entry => entry.ParticipantId).ToList();
-
-            int i = 0;
-            string activeUsersQuery = string.Empty;
-            foreach (string id in participantsIds)
-            {
-                i++;
-                if (i == 1) { activeUsersQuery = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id); }
-                else
-                {
-                    activeUsersQuery = TableQuery.CombineFilters(
-                        activeUsersQuery,
-                        TableOperators.Or,
-                        TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id)
-                        );
-                }
-            }
-            TableQuery<ParticipantTableEntity> finalQuery = new TableQuery<ParticipantTableEntity>().Where(activeUsersQuery);
-            List<ParticipantTableEntity> activeUsers = UsersInfo.ExecuteQuery(finalQuery).ToList();
-
-            return activeUsers;
+            var client = new HttpClient();
+            var result = await client.GetAsync($"{Constants.HostName}/api/GetGroup?groupId={groupId}");
+            var jsonString = await result.Content.ReadAsStringAsync();
+            var participantTableEntity = JsonConvert.DeserializeObject<List<ParticipantTableEntity>>(jsonString);
+            return participantTableEntity;
         }
 
         public static Dictionary<string, UserStatsTableEntity> GetGroupStats()
@@ -122,7 +95,7 @@ namespace EssentialUIKit
             Dictionary<string, UserStatsTableEntity> dict = new Dictionary<string, UserStatsTableEntity>();
             UserStats.ExecuteQuery(finalQuery).ForEach(u => dict.Add(u.RowKey, u));
 
-            App._adminLocation = new List<double> { dict[App._adminId].Latitude, dict[App._adminId].Longtitude };
+            App._adminLocation = new List<double> { 0, 0 };
 
             return dict;
         }
@@ -154,12 +127,18 @@ namespace EssentialUIKit
             return ((UserStatsTableEntity)result.Result);
         }
 
-        public async static Task<SessionParticipantTableEntity> AddParticipantToGroup(SessionParticipant sessionParticipant)
+        public async static Task<HttpResponseMessage> AddParticipantToGroup(SessionParticipant sessionParticipant)
         {
-            var entity = new SessionParticipantTableEntity(sessionParticipant);
-            TableOperation replace = TableOperation.InsertOrReplace(entity);
-            TableResult result = await GroupInfo.ExecuteAsync(replace);
-            return ((SessionParticipantTableEntity)result.Result);
+            //var entity = new SessionParticipantTableEntity(sessionParticipant);
+            //TableOperation replace = TableOperation.InsertOrReplace(entity);
+            //TableResult result = await GroupInfo.ExecuteAsync(replace);
+            //return ((SessionParticipantTableEntity)result.Result);
+
+            var client = new HttpClient();
+            var json = JsonConvert.SerializeObject(sessionParticipant);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var result = await client.PostAsync($"{Constants.HostName}/api/JoinGroup", content);
+            return result;
         }
 
         public async static Task<SessionParticipantTableEntity> GetParticipantGroup(string id)

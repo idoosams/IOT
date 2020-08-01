@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="8" android:versionName="6.1" package="com.syncfusion.xamarin.uikit" android:installLocation="internalOnly">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
-	<application android:label="Essential UI Kit">
+	<application android:label="Essential UI Kit" android:usesCleartextTraffic="true">
 		<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyA7uUeQidaWlNK05VUswBRCItbwzFSgnA4" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 		<!-- Necessary for apps that target Android 9.0 or higher -->

@@ -56,8 +56,6 @@ namespace EssentialUIKit
 
             InitializeComponent();
 
-            Task.Factory.StartNew(() => methodRunPeriodically());
-
             // this.MainPage = new AppShell();
             AppSettings.Instance.SelectedPrimaryColor = 1;
             this.MainPage = new NavigationPage(new SimpleLoginPage());            
@@ -95,27 +93,6 @@ namespace EssentialUIKit
         protected override void OnResume()
         {
             // Handle when your app resumes
-        }
-
-        async Task methodRunPeriodically()
-        {
-            while (true)
-            {
-                if (App._user != null)
-                {
-                    await AzureDbClient.SaveUserStats(App._user.RowKey);
-                }
-
-                if (!string.IsNullOrWhiteSpace(App._groupId))
-                {                   
-
-                    var participantsFromTable = AzureDbClient.GetGroupParticipants(App._groupId);
-                    App._activeUsers = participantsFromTable;
-
-                    App._userStats = AzureDbClient.GetGroupStats();
-                }
-                await Task.Delay(3000);
-            }
         }
 
         #endregion
