@@ -24,7 +24,7 @@ namespace OnTrackAzureFunctions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var sessionParticipant = JsonConvert.DeserializeObject<SessionParticipant>(requestBody);
 
-            TableOperation retrieve = TableOperation.Retrieve<SessionParticipantTableEntity>("", "dsadsadsa");
+            TableOperation retrieve = TableOperation.Retrieve<SessionParticipantTableEntity>("", sessionParticipant.id);
             TableResult result = await groupInfoTable.ExecuteAsync(retrieve);
             SessionParticipantTableEntity entity = (SessionParticipantTableEntity)result.Result;
             TableOperation delete = TableOperation.Delete(entity);

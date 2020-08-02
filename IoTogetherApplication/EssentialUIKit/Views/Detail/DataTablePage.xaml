@@ -174,7 +174,10 @@
                         Margin="0,4"
                         Command="{Binding LeaveClicked}"
                         Style="{StaticResource SfButtonStyle}"
+                        x:Name="LeaveGroupButton" IsVisible="True" Clicked="LeaveGroup_Clicked"
                         Text="Leave Group"/>
+               
+
             </StackLayout>
         </Grid>
         

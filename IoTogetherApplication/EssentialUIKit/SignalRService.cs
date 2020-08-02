@@ -47,7 +47,7 @@ namespace EssentialUIKit
             var userStats = new UserStats(userId, location.Latitude, location.Longitude, (double)location.Speed, Battery.ChargeLevel, true);
             var json = JsonConvert.SerializeObject(userStats);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var result = await client.PostAsync($"{Constants.HostName}/api/TableOutput", content);
+            var result = await client.PostAsync($"{Constants.HostName}/api/UpdateUserStats", content);
            
             IsBusy = false;
         }

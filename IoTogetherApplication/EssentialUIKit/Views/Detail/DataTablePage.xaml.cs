@@ -40,10 +40,10 @@ namespace EssentialUIKit.Views.Detail
         {
             base.OnAppearing();
             await signalR.ConnectAsync(App._user.RowKey);
-            await AzureDbClient.AddParticipantToGroup(sessionParticipant);
+            await AzureDbClient.AddParticipantToGroup(this.sessionParticipant);
             var participantsFromTable = AzureDbClient.GetGroupParticipantsAsync(App._groupId);
             App._activeUsers = await participantsFromTable;
-            App._userStats = AzureDbClient.GetGroupStats();
+            App._userStats = await AzureDbClient.GetGroupStatsAsync();
             RefreshView();
 
         }
@@ -92,7 +92,7 @@ namespace EssentialUIKit.Views.Detail
                 if (App._userStats != null && App._userStats.TryGetValue(participant?.RowKey, out statEntity))
                 {
 
-                    var adminLocation = new GeoCoordinate(App._adminLocation[0], App._adminLocation[1]);
+                    var adminLocation = new GeoCoordinate(0, 0);
                     var userLocation = new GeoCoordinate(statEntity.Latitude, statEntity.Longtitude);
                     var distanceFromAdmin = (int)adminLocation.GetDistanceTo(userLocation);
                     var chargeLevel = statEntity.BaterryCharge;
@@ -229,6 +229,11 @@ namespace EssentialUIKit.Views.Detail
             await signalR.SendUserStats(App._user.RowKey);
         }
 
+        private async void LeaveGroup_Clicked(object sender, EventArgs e)
+        {
+            await AzureDbClient.DeleteParticipantFromGroup(this.sessionParticipant);
+        }
+
         private async Task SignalR_NewUserStatsReceived(object sender, UserStats userStats)
         {
             if (App._userStats.ContainsKey(userStats?.Id))
@@ -243,7 +248,7 @@ namespace EssentialUIKit.Views.Detail
             else
             {
                 App._activeUsers = await AzureDbClient.GetGroupParticipantsAsync(App._groupId);
-                App._userStats = AzureDbClient.GetGroupStats();
+                App._userStats = await AzureDbClient.GetGroupStatsAsync();
             }
 
             RefreshView();

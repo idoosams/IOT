@@ -14,17 +14,10 @@ using Newtonsoft.Json.Linq;
 
 namespace OnTrackAzureFunctions
 {
-    public class TestFunc
+    public class UpdateUserStats
     {
-        public class MyPoco
-        {
-            public string PartitionKey { get; set; }
-            public string RowKey { get; set; }
-            public string Text { get; set; }
-        }
-
-        [FunctionName("TableOutput")]
-        public static async Task<IActionResult> TableOutputAsync(
+        [FunctionName("UpdateUserStats")]
+        public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log,
             [Table("UserStats", Connection = "AzureWebJobsStorage")] CloudTable userStatsTable,
@@ -32,8 +25,6 @@ namespace OnTrackAzureFunctions
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<UserStats>(requestBody);
-            dynamic x = JsonConvert.DeserializeObject(requestBody);
-            var jObject = new JObject(x);
 
             var entity = new UserStatsTableEntity(data.Id, data.Latitude, data.Longtitude, data.Speed, data.BaterryCharge, data.Connectivity);
             TableOperation replace = TableOperation.InsertOrReplace(entity);
