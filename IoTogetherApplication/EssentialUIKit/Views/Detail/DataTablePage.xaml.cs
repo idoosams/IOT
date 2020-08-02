@@ -4,7 +4,9 @@ using EssentialUIKit.ViewModels.Detail;
 using GeoCoordinatePortable;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Maps;
@@ -23,25 +25,46 @@ namespace EssentialUIKit.Views.Detail
 
         private bool continueRefresh = true;
 
+        SignalRService signalR;
+        private SessionParticipant sessionParticipant;
+
         public DataTablePage()
         {
             InitializeComponent();
+            signalR = new SignalRService();
+            signalR.NewUserStats += SignalR_NewUserStatsReceived;
+            
         }
 
-        public DataTablePage(DataTableViewModel dataTableViewModel) : this()
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await signalR.ConnectAsync(App._user.RowKey);
+            await AzureDbClient.AddParticipantToGroup(this.sessionParticipant);
+            var participantsFromTable = AzureDbClient.GetGroupParticipantsAsync(App._groupId);
+            App._activeUsers = await participantsFromTable;
+            App._userStats = await AzureDbClient.GetGroupStatsAsync();
+            RefreshView();
+
+        }
+
+
+        public DataTablePage(DataTableViewModel dataTableViewModel, SessionParticipant sessionParticipant) : this()
         {
             this.dataTableViewModel = dataTableViewModel;
             this.BindingContext = this.dataTableViewModel;
+            this.sessionParticipant = sessionParticipant;
 
-            Device.StartTimer(TimeSpan.FromSeconds(3), () =>
+            Task.Factory.StartNew(() => methodRunPeriodically());
+
+        }
+
+        private void SignalR_ConnectionChanged(object sender, bool success, string message)
+        {
+            Device.BeginInvokeOnMainThread(() =>
             {
-                if (continueRefresh)
-                {
-                    Device.BeginInvokeOnMainThread(() => RefreshView());
-                }
-                return true;
             });
-        }   
+        }
 
         private string[] CreateBatteryColorView(double batteryPercentage)
         {
@@ -69,7 +92,7 @@ namespace EssentialUIKit.Views.Detail
                 if (App._userStats != null && App._userStats.TryGetValue(participant?.RowKey, out statEntity))
                 {
 
-                    var adminLocation = new GeoCoordinate(App._adminLocation[0], App._adminLocation[1]);
+                    var adminLocation = new GeoCoordinate(0, 0);
                     var userLocation = new GeoCoordinate(statEntity.Latitude, statEntity.Longtitude);
                     var distanceFromAdmin = (int)adminLocation.GetDistanceTo(userLocation);
                     var chargeLevel = statEntity.BaterryCharge;
@@ -199,6 +222,47 @@ namespace EssentialUIKit.Views.Detail
         {
             this.Search.IsVisible = false;
             this.Title.IsVisible = true;
-        }        
+        }
+
+        private async void UpdateUserStats_Clicked(object sender, EventArgs e)
+        {
+            await signalR.SendUserStats(App._user.RowKey);
+        }
+
+        private async void LeaveGroup_Clicked(object sender, EventArgs e)
+        {
+            await AzureDbClient.DeleteParticipantFromGroup(this.sessionParticipant);
+        }
+
+        private async Task SignalR_NewUserStatsReceived(object sender, UserStats userStats)
+        {
+            if (App._userStats.ContainsKey(userStats?.Id))
+            {
+                App._userStats[userStats.Id].Latitude = userStats.Latitude;
+                App._userStats[userStats.Id].Longtitude = userStats.Longtitude;
+                App._userStats[userStats.Id].Speed = userStats.Speed;
+                App._userStats[userStats.Id].BaterryCharge = userStats.BaterryCharge;
+                App._userStats[userStats.Id].Connectivity = userStats.Connectivity;
+
+            }
+            else
+            {
+                App._activeUsers = await AzureDbClient.GetGroupParticipantsAsync(App._groupId);
+                App._userStats = await AzureDbClient.GetGroupStatsAsync();
+            }
+
+            RefreshView();
+        }
+
+        async Task methodRunPeriodically()
+        {
+            while (true)
+            {
+                if (App._user != null)
+                {
+                    await signalR.SendUserStats(App._user.RowKey);
+                }
+            }
+        }
     }
 }
