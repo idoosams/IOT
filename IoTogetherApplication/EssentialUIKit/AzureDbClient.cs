@@ -72,27 +72,6 @@ namespace EssentialUIKit
         public static async Task<Dictionary<string, UserStatsTableEntity>> GetGroupStatsAsync()
         {
             List<string> participantsIds = App._activeUsers.Select(x => x.RowKey).ToList();
-
-            //int i = 0;
-            //string activeUsersQuery = string.Empty;
-            //foreach (string id in participantsIds)
-            //{
-            //    i++;
-            //    if (i == 1) { activeUsersQuery = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id); }
-            //    else
-            //    {
-            //        activeUsersQuery = TableQuery.CombineFilters(
-            //            activeUsersQuery,
-            //            TableOperators.Or,
-            //            TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id)
-            //            );
-            //    }
-            //}
-            //TableQuery<UserStatsTableEntity> finalQuery = new TableQuery<UserStatsTableEntity>().Where(activeUsersQuery);
-
-            //Dictionary<string, UserStatsTableEntity> dict = new Dictionary<string, UserStatsTableEntity>();
-            //UserStats.ExecuteQuery(finalQuery).ForEach(u => dict.Add(u.RowKey, u));
-
             var json = JsonConvert.SerializeObject(participantsIds);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var result = await client.PostAsync($"{Constants.HostName}/api/GetGroupStats", content);
@@ -114,13 +93,6 @@ namespace EssentialUIKit
             var jsonString = await result.Content.ReadAsStringAsync();
             var participantTableEntity = JsonConvert.DeserializeObject<ParticipantTableEntity>(jsonString);
             return participantTableEntity;
-        }
-
-        public async static Task<SessionParticipantTableEntity> GetParticipantGroup(string id)
-        {
-            TableOperation retrieve = TableOperation.Retrieve<SessionParticipantTableEntity>("", id);
-            TableResult result = await GroupInfo.ExecuteAsync(retrieve);
-            return ((SessionParticipantTableEntity)result.Result);
         }
     }
 }
