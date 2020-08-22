@@ -262,6 +262,7 @@ namespace EssentialUIKit.Views.Detail
                 {
                     await signalR.SendUserStats(App._user.RowKey);
                 }
+                await Task.Delay(5000);
             }
         }
     }
