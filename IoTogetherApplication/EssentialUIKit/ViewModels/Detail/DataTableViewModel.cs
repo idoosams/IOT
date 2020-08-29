@@ -110,7 +110,6 @@ namespace EssentialUIKit.ViewModels.Detail
         #region Private Methods
         public void OnLeaveClick()
         {
-            AzureDbClient.DeleteParticipantFromGroup(App._groupRowKey);
             Application.Current.MainPage.Navigation.PushAsync(new ChooseActionPage(), true);
         }
 
