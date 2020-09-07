@@ -1,6 +1,5 @@
 ﻿using EssentialUIKit.AppLayout.Views;
 using EssentialUIKit.ViewModels.Forms;
-using EssentialUIKit.Views.Catalog;
 using EssentialUIKit.Views.Detail;
 using EssentialUIKit.Views.Forms;
 using Newtonsoft.Json;
