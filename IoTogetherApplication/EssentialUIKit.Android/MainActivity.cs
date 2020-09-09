@@ -44,7 +44,7 @@ namespace EssentialUIKit.Droid
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjgwMjE1QDMxMzgyZTMxMmUzMFpVVGFVcVNiK25MaWZYSmJYK0ZwUFM1MGJUVEtKMXZRTG9nWVpCRDJBT2s9");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzE1NTE4QDMxMzgyZTMxMmUzMGRQVnFaZUc4Zk9Pc0dSeGdSOUc0T2tyZVNtMldld3hmRS9KUkthOHRnMW89");
 
             Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
 
