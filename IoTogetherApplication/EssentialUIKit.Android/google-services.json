@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "418985244818",
+    "firebase_url": "https://iotogether-b11a8.firebaseio.com",
+    "project_id": "iotogether-b11a8",
+    "storage_bucket": "iotogether-b11a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418985244818:android:63b1243952dd871e5c4e4b",
+        "android_client_info": {
+          "package_name": "com.iotogether.iot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418985244818-ljalq6doe8erb0i0di69o5t7phufbna4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKd8VgFFPzTJ4e3QqsflkuoHFTPAsQTbM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418985244818-ljalq6doe8erb0i0di69o5t7phufbna4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
