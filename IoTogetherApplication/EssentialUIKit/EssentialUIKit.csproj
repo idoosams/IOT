@@ -72,12 +72,6 @@
     <EmbeddedResource Include="AppLayout\Icons\social.png" />
     <EmbeddedResource Include="AppLayout\Icons\tracking.png" />
     <EmbeddedResource Include="AppLayout\Icons\transaction.png" />
-    <EmbeddedResource Include="Data\deliverytracking.json" />
-    <EmbeddedResource Include="Data\notification.json" />
-    <EmbeddedResource Include="Data\timeline.json" />
-    <EmbeddedResource Include="Data\trainstatus.json" />
-    <EmbeddedResource Include="Data\ecommerce.json" />
-    <EmbeddedResource Include="Data\navigation.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="AppLayout\Views\Styles.xaml.cs">
@@ -95,9 +89,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Detail\FeedbackView.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
     <Compile Update="Views\Detail\Styles.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
