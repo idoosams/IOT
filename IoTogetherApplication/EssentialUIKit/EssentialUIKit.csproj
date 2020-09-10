@@ -72,7 +72,6 @@
     <EmbeddedResource Include="AppLayout\Icons\social.png" />
     <EmbeddedResource Include="AppLayout\Icons\tracking.png" />
     <EmbeddedResource Include="AppLayout\Icons\transaction.png" />
-    <EmbeddedResource Include="AppLayout\TemplateList.xml" />
     <EmbeddedResource Include="Data\deliverytracking.json" />
     <EmbeddedResource Include="Data\notification.json" />
     <EmbeddedResource Include="Data\timeline.json" />
@@ -101,9 +100,6 @@
     </Compile>
     <Compile Update="Views\Detail\Styles.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Forms\AddContactPage.xaml.cs">
-      <DependentUpon>AddContactPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Forms\SimpleEmailEntry.xaml.cs">
       <DependentUpon>SimpleEmailEntry.xaml</DependentUpon>

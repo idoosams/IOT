@@ -123,7 +123,6 @@
     <Compile Include="Constants.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MyFirebaseMessagingService.cs" />
-    <Compile Include="Renderers\CalenderDatePickerRenderer.cs" />
     <Compile Include="Renderers\ParallaxListViewRenderer.cs" />
     <Compile Include="Renderers\BorderlessEditorRenderer.cs" />
     <Compile Include="Renderers\BorderlessEntryRenderer.cs" />
