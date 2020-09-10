@@ -58,24 +58,12 @@
     <Compile Update="Views\Detail\Styles.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
-    <Compile Update="Views\Forms\SimpleEmailEntry.xaml.cs">
-      <DependentUpon>SimpleEmailEntry.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Forms\SimpleForgotPasswordPage.xaml.cs">
-      <DependentUpon>SimpleForgotPasswordPage.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\Forms\SimpleLoginPage.xaml.cs">
       <DependentUpon>SimpleLoginPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Forms\SimpleResetPasswordPage.xaml.cs">
-      <DependentUpon>SimpleResetPasswordPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Forms\SimpleSignUpPage.xaml.cs">
       <DependentUpon>SimpleSignUpPage.xaml</DependentUpon>
     </Compile>
-	<Compile Update="Views\Templates\Styles.xaml.cs">
-	  <DependentUpon>%(Filename)</DependentUpon>
-	</Compile>
   </ItemGroup>
 
   <Import Project="..\..\build\tools\Syncfusion.CodeAnalysis.FxCop\tools\FxCop.MsBuild.targets" Condition="Exists('..\..\build\tools\Syncfusion.CodeAnalysis.FxCop\tools\FxCop.MsBuild.targets')" />
