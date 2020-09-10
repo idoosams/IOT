@@ -106,6 +106,7 @@ namespace EssentialUIKit.ViewModels
             App._groupId = GenerateGroupId();
             App._groupName = this.groupName;
             App._groupRowKey = guid;
+            App._adminId = App._user.RowKey;
             var sessionParticipant = new SessionParticipant(guid, App._groupId, this.groupName, true, App._user.RowKey);
 
             await Application.Current.MainPage.Navigation.PushAsync(new DataTablePage(new Detail.DataTableViewModel(), sessionParticipant), true);
@@ -119,8 +120,10 @@ namespace EssentialUIKit.ViewModels
         {
             string guid = Guid.NewGuid().ToString("N");
             App._groupId = this.groupId;
-            this.groupName = AzureDbClient.GroupIdToName(App._groupId);
-            App._groupName = this.groupName;
+            var groupInfo = await AzureDbClient.GetGroupInfo(App._groupId);
+            this.groupName = groupInfo.Name;
+            App._groupName = groupInfo.Name;
+            App._adminId = groupInfo.AdminId;
             if (this.groupName == null)
             {
                 await Application.Current.MainPage.DisplayAlert("Oops", $"We couldn't find group id {this.groupId}", "Ok");

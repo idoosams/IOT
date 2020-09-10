@@ -7,12 +7,9 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System.Linq;
 using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Azure.WebJobs.Extensions.SignalRService;
-using Newtonsoft.Json.Linq;
 using Microsoft.Azure.NotificationHubs;
-using Xamarin.Essentials;
 
 namespace OnTrackAzureFunctions
 {
