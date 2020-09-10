@@ -50,41 +50,8 @@
     <PackageReference Include="Xamarin.Forms" Version="4.6.0.726" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AppLayout\Icons\about-us.png" />
-    <EmbeddedResource Include="AppLayout\Icons\article.png" />
-    <EmbeddedResource Include="AppLayout\Icons\bookmark.png" />
-    <EmbeddedResource Include="AppLayout\Icons\catalog.png" />
-    <EmbeddedResource Include="AppLayout\Icons\chat.png" />
-    <EmbeddedResource Include="AppLayout\Icons\contact-us.png" />
-    <EmbeddedResource Include="AppLayout\Icons\dashboard.png" />
-    <EmbeddedResource Include="AppLayout\Icons\detail.png" />
-    <EmbeddedResource Include="AppLayout\Icons\ecommerce.png" />
-    <EmbeddedResource Include="AppLayout\Icons\error-empty.png" />
-    <EmbeddedResource Include="AppLayout\Icons\feedback.png" />
-    <EmbeddedResource Include="AppLayout\Icons\forms.png" />
-    <EmbeddedResource Include="AppLayout\Icons\history.png" />
-    <EmbeddedResource Include="AppLayout\Icons\log-in.png" />
-    <EmbeddedResource Include="AppLayout\Icons\navigation.png" />
-    <EmbeddedResource Include="AppLayout\Icons\notification.png" />
-    <EmbeddedResource Include="AppLayout\Icons\on-boarding.png" />
-    <EmbeddedResource Include="AppLayout\Icons\profile.png" />
-    <EmbeddedResource Include="AppLayout\Icons\setting.png" />
-    <EmbeddedResource Include="AppLayout\Icons\social.png" />
-    <EmbeddedResource Include="AppLayout\Icons\tracking.png" />
-    <EmbeddedResource Include="AppLayout\Icons\transaction.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="AppLayout\Views\Styles.xaml.cs">
-        <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
     <Compile Update="Views\MapPage.xaml.cs">
       <DependentUpon>MapPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Profile\MasterPage.xaml.cs">
-      <DependentUpon>MasterPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Profile\ContactProfilePage.xaml.cs">
-      <DependentUpon>ContactProfilePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
