@@ -1,5 +1,4 @@
-﻿using EssentialUIKit.AppLayout.Views;
-using EssentialUIKit.Views.Forms;
+﻿using EssentialUIKit.Views.Forms;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;

@@ -1,5 +1,4 @@
 ﻿using EssentialUIKit.AppLayout;
-using EssentialUIKit.AppLayout.Views;
 using EssentialUIKit.Views.Forms;
 using System.Collections.Generic;
 using System.Collections.Specialized;
