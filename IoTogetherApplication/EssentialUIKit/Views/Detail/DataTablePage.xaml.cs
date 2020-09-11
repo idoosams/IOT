@@ -84,15 +84,20 @@ namespace EssentialUIKit.Views.Detail
         {
             var participantsFromTable = App._activeUsers;
             var tmp = new List<DataTable>();
-
             UserStatsTableEntity statEntity;
+            GeoCoordinate adminLocation = null;
+
+            if (App._userStats.TryGetValue(App._adminId, out statEntity))
+            {
+                adminLocation = new GeoCoordinate(statEntity.Latitude, statEntity.Longtitude);
+            }
 
             foreach (var participant in participantsFromTable)
             {
                 if (App._userStats != null && App._userStats.TryGetValue(participant?.RowKey, out statEntity))
                 {
 
-                    var adminLocation = new GeoCoordinate(0, 0);
+                    
                     var userLocation = new GeoCoordinate(statEntity.Latitude, statEntity.Longtitude);
                     var distanceFromAdmin = (int)adminLocation.GetDistanceTo(userLocation);
                     var chargeLevel = statEntity.BaterryCharge;

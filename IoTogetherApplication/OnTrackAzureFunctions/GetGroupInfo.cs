@@ -13,9 +13,9 @@ using System.Text;
 
 namespace OnTrackAzureFunctions
 {
-    public static class GetGroup
+    public static class GetGroupInfo
     {
-        [FunctionName("GetGroup")]
+        [FunctionName("GetGroupInfo")]
         public static async Task<HttpResponseMessage> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             [Table("GroupInfo", Connection = "AzureWebJobsStorage")] CloudTable groupInfoTable,
@@ -26,29 +26,15 @@ namespace OnTrackAzureFunctions
 
             var query = new TableQuery<SessionParticipantTableEntity>();
             query.Where(TableQuery.GenerateFilterCondition("GroupId", QueryComparisons.Equal, groupId));
-            query.Select(new List<string> { "ParticipantId" });
+            query.Select(new List<string> { "GroupId", "GroupName", "ParticipantId", "IsAdmin" });
             var result = groupInfoTable.ExecuteQuery(query).ToList();
-            List<string> participantsIds = result.Where(entry => !string.IsNullOrWhiteSpace(entry.ParticipantId)).Select(entry => entry.ParticipantId).ToList();
+            var adminRow = result.Find(u => u.IsAdmin == true);
 
-            int i = 0;
-            string activeUsersQuery = string.Empty;
-            foreach (string id in participantsIds)
-            {
-                i++;
-                if (i == 1) { activeUsersQuery = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id); }
-                else
-                {
-                    activeUsersQuery = TableQuery.CombineFilters(
-                        activeUsersQuery,
-                        TableOperators.Or,
-                        TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id)
-                        );
-                }
-            }
-            TableQuery<ParticipantTableEntity> finalQuery = new TableQuery<ParticipantTableEntity>().Where(activeUsersQuery);
-            List<ParticipantTableEntity> activeUsers = usersInfoTable.ExecuteQuery(finalQuery).ToList();
 
-            var jsonToReturn = JsonConvert.SerializeObject(activeUsers);
+            var groupName = adminRow != null ? adminRow.GroupName : null; 
+            var adminId = adminRow != null ? adminRow.ParticipantId : null;
+
+            var jsonToReturn = JsonConvert.SerializeObject(new GroupInfo(adminId, groupName));
 
             return new HttpResponseMessage(HttpStatusCode.OK)
             {
