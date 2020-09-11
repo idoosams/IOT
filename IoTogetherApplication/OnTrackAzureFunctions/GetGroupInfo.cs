@@ -31,7 +31,7 @@ namespace OnTrackAzureFunctions
             var adminRow = result.Find(u => u.IsAdmin == true);
 
 
-            var groupName = adminRow != null ? adminRow.GroupName : null;
+            var groupName = adminRow != null ? adminRow.GroupName : null; 
             var adminId = adminRow != null ? adminRow.ParticipantId : null;
 
             var jsonToReturn = JsonConvert.SerializeObject(new GroupInfo(adminId, groupName));
