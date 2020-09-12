@@ -16,8 +16,10 @@ namespace EssentialUIKit
 
         public delegate Task UserStatsHandler(object sender, UserStats user);
         public delegate void ConnectionHandler(object sender, bool successful, string message);
+        public delegate Task RefreshHendler(object sender, string message);
 
         public event UserStatsHandler NewUserStats;
+        public event RefreshHendler RefreshTrigger;
         public event ConnectionHandler Connected;
         public event ConnectionHandler ConnectionFailed;
         public bool IsConnected { get; private set; }
@@ -69,6 +71,7 @@ namespace EssentialUIKit
 
                 connection.Closed += Connection_Closed;
                 connection.On<UserStats>("userStatsUpdate", UpdateNewUserStats);
+                connection.On<string>("userLeft", RefreshHandler);
                 await connection.StartAsync();
 
                 IsConnected = true;
@@ -96,6 +99,11 @@ namespace EssentialUIKit
         {
             var userStats = jsonUserStats;
             NewUserStats?.Invoke(this, userStats);
+        }
+
+        void RefreshHandler(string message)
+        {
+            RefreshTrigger?.Invoke(this, message);
         }
 
     }
