@@ -74,10 +74,6 @@
                 <!--  Search Button  -->
                 <buttons:SfButton  x:Name="SearchButton" IsVisible="True" Clicked="SearchButton_Clicked" Style="{StaticResource IconButtonStyle }"
                                    Text="{StaticResource Search}" />
-
-                <!--  UpdateUserStats Button  -->
-                <buttons:SfButton  x:Name="UpdateUserStatsButton" IsVisible="True" Clicked="UpdateUserStats_Clicked" Style="{StaticResource IconButtonStyle }"
-                                   Text="UpdateUserStats" />
             </StackLayout>
 
             <BoxView Grid.Row="1" Style="{StaticResource SeparatorStyle}"/>

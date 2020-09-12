@@ -119,7 +119,7 @@ namespace EssentialUIKit.ViewModels
         {
             string guid = Guid.NewGuid().ToString("N");
             App._groupId = this.groupId;
-            var groupInfo = await AzureDbClient.GetGroupInfo(App._groupId);
+            var groupInfo = await AzureClient.GetGroupInfo(App._groupId);
             this.groupName = groupInfo.Name;
             App._groupName = groupInfo.Name;
             App._adminId = groupInfo.AdminId;

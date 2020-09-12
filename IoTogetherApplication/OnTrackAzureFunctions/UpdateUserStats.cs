@@ -36,44 +36,7 @@ namespace OnTrackAzureFunctions
                 Arguments = new[] { data }
             });
 
-
-            try
-            {
-                if (entity.BaterryCharge < 0.15)
-                {
-                    await CreateNotification(entity.RowKey + " has low battery!");
-                }
-                /*var location = await Geolocation.GetLocationAsync();
-                var distance = Location.CalculateDistance(location, entity.Latitude, entity.Longtitude, DistanceUnits.Kilometers);
-                if (distance > 1)
-                {
-                    await CreateNotification(entity.RowKey + " is far!");
-                }*/
-                var networkState = entity.Connectivity;
-                if (!networkState)
-                {
-                    await CreateNotification(entity.RowKey + " is not connected!");
-                }
-
-            }
-            catch (Exception ex)
-            {
-            }
-
             return new OkObjectResult("OK");
-        }
-
-        private async static Task CreateNotification(string message)
-        {
-            var connectionString = "Endpoint=sb://iotogethernotificationsns.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=NW358Y1/qG1d7pE0X7xHeYA7LBGy20D/rVdW/GW0mZ0=";
-            var hubName = "IOTogetherNotifications";
-            var nhClient = NotificationHubClient.CreateClientFromConnectionString(connectionString, hubName);
-
-            var notificationPayload = "{\"data\":{\"body\":\"" + message + "\",\"title\":\"" + "OnTrack Notification" + "\"}}";
-            var notification = new FcmNotification(notificationPayload);
-
-            var outcomeFcmByTag = await nhClient.SendFcmNativeNotificationAsync(notificationPayload);
-
         }
     }
 }

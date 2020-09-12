@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using EssentialUIKit.Models;
-using EssentialUIKit.Schema;
 using Xamarin.Essentials;
 
 namespace EssentialUIKit

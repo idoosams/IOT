@@ -14,7 +14,7 @@ using Xamarin.Essentials;
 
 namespace EssentialUIKit
 {
-    public static class AzureDbClient
+    public static class AzureClient
     {
         static HttpClient client = new HttpClient();
 
@@ -39,6 +39,14 @@ namespace EssentialUIKit
             var json = JsonConvert.SerializeObject(sessionParticipant);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var result = await client.PostAsync($"{Constants.HostName}/api/JoinGroup", content);
+            return result;
+        }
+
+        public async static Task<HttpResponseMessage> SendNotfication(NotficationInfo notficationInfo)
+        {
+            var json = JsonConvert.SerializeObject(notficationInfo);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var result = await client.PostAsync($"{Constants.HostName}/api/SendNotfication", content);
             return result;
         }
 

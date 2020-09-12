@@ -40,10 +40,10 @@ namespace EssentialUIKit.Views.Detail
         {
             base.OnAppearing();
             await signalR.ConnectAsync(App._user.RowKey);
-            await AzureDbClient.AddParticipantToGroup(this.sessionParticipant);
-            var participantsFromTable = AzureDbClient.GetGroupParticipantsAsync(App._groupId);
+            await AzureClient.AddParticipantToGroup(this.sessionParticipant);
+            var participantsFromTable = AzureClient.GetGroupParticipantsAsync(App._groupId);
             App._activeUsers = await participantsFromTable;
-            App._userStats = await AzureDbClient.GetGroupStatsAsync();
+            App._userStats = await AzureClient.GetGroupStatsAsync();
             RefreshView();
 
         }
@@ -229,14 +229,9 @@ namespace EssentialUIKit.Views.Detail
             this.Title.IsVisible = true;
         }
 
-        private async void UpdateUserStats_Clicked(object sender, EventArgs e)
-        {
-            await signalR.SendUserStats(App._user.RowKey);
-        }
-
         private async void LeaveGroup_Clicked(object sender, EventArgs e)
         {
-            await AzureDbClient.DeleteParticipantFromGroup(this.sessionParticipant);
+            await AzureClient.DeleteParticipantFromGroup(this.sessionParticipant);
         }
 
         private async Task SignalR_NewUserStatsReceived(object sender, UserStats userStats)
@@ -252,8 +247,8 @@ namespace EssentialUIKit.Views.Detail
             }
             else
             {
-                App._activeUsers = await AzureDbClient.GetGroupParticipantsAsync(App._groupId);
-                App._userStats = await AzureDbClient.GetGroupStatsAsync();
+                App._activeUsers = await AzureClient.GetGroupParticipantsAsync(App._groupId);
+                App._userStats = await AzureClient.GetGroupStatsAsync();
             }
 
             RefreshView();
@@ -266,6 +261,7 @@ namespace EssentialUIKit.Views.Detail
                 if (App._user != null)
                 {
                     await signalR.SendUserStats(App._user.RowKey);
+                    await AzureClient.SendNotfication(new NotficationInfo("ido samselik", "testAlert"));
                 }
                 await Task.Delay(5000);
             }

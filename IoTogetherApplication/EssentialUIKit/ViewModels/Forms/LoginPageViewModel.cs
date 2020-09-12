@@ -91,7 +91,7 @@ namespace EssentialUIKit.ViewModels.Forms
         /// <param name="obj">The Object</param>
         private async void LoginClicked(object obj)
         {
-            App._user = await AzureDbClient.TryGetUser(this.Email, PasswordHasher.GetHashString(this.password));
+            App._user = await AzureClient.TryGetUser(this.Email, PasswordHasher.GetHashString(this.password));
             if (App._user != null)
             {
                 await Application.Current.MainPage.Navigation.PushAsync(new ChooseActionPage(), true);
