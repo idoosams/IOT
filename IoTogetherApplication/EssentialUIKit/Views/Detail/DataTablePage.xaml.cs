@@ -23,8 +23,6 @@ namespace EssentialUIKit.Views.Detail
     {
         private DataTableViewModel dataTableViewModel;
 
-        private bool continueRefresh = true;
-
         SignalRService signalR;
         private SessionParticipant sessionParticipant;
 
@@ -33,17 +31,18 @@ namespace EssentialUIKit.Views.Detail
             InitializeComponent();
             signalR = new SignalRService();
             signalR.NewUserStats += SignalR_NewUserStatsReceived;
-            
+            signalR.RefreshTrigger += SignalR_Refresh;
+
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
             await signalR.ConnectAsync(App._user.RowKey);
-            await AzureDbClient.AddParticipantToGroup(this.sessionParticipant);
-            var participantsFromTable = AzureDbClient.GetGroupParticipantsAsync(App._groupId);
+            await AzureClient.AddParticipantToGroup(this.sessionParticipant);
+            var participantsFromTable = AzureClient.GetGroupParticipantsAsync(App._groupId);
             App._activeUsers = await participantsFromTable;
-            App._userStats = await AzureDbClient.GetGroupStatsAsync();
+            App._userStats = await AzureClient.GetGroupStatsAsync();
             RefreshView();
 
         }
@@ -57,13 +56,6 @@ namespace EssentialUIKit.Views.Detail
 
             Task.Factory.StartNew(() => methodRunPeriodically());
 
-        }
-
-        private void SignalR_ConnectionChanged(object sender, bool success, string message)
-        {
-            Device.BeginInvokeOnMainThread(() =>
-            {
-            });
         }
 
         private string[] CreateBatteryColorView(double batteryPercentage)
@@ -95,9 +87,7 @@ namespace EssentialUIKit.Views.Detail
             foreach (var participant in participantsFromTable)
             {
                 if (App._userStats != null && App._userStats.TryGetValue(participant?.RowKey, out statEntity))
-                {
-
-                    
+                {                   
                     var userLocation = new GeoCoordinate(statEntity.Latitude, statEntity.Longtitude);
                     var distanceFromAdmin = (int)adminLocation.GetDistanceTo(userLocation);
                     var chargeLevel = statEntity.BaterryCharge;
@@ -112,35 +102,13 @@ namespace EssentialUIKit.Views.Detail
 
                     /*if (chargeLevel <= 0.15)
                     {
-                        this.continueRefresh = false;
-                        var ack = await Application.Current.MainPage.DisplayAlert("Alert!", $"Seems like {participant.FirstName} {participant.LastName} is loosing connection!", "Call", "Dismiss");
-                        if (ack)
-                        {
-                            await Task.Delay(5000);
-                            this.continueRefresh = true;
-                        } else
-                        {
-                            await Task.Delay(5000);
-                            this.continueRefresh = true;
-                        }                 
+                        var ack = await Application.Current.MainPage.DisplayAlert("Alert!", $"Seems like {participant.FirstName} {participant.LastName} is loosing connection!", "OK", "Cancel");                
                     }
 
                     if (distanceFromAdmin >= 5000)
                     {
-                        this.continueRefresh = false;
-                        var ack = await Application.Current.MainPage.DisplayAlert("Alert!", $"Seems like {participant.FirstName} {participant.LastName} is getting far away!", "Call", "Dismiss");
-                        if (ack)
-                        {
-                            await Task.Delay(5000);
-                            this.continueRefresh = true;
-                        }
-                        else
-                        {
-                            await Task.Delay(5000);
-                            this.continueRefresh = true;
-                        }
+                        var ack = await Application.Current.MainPage.DisplayAlert("Alert!", $"Seems like {participant.FirstName} {participant.LastName} is getting far away!", "Ok", "Cancel");                    
                     }*/
-
                 }
             }
             this.dataTableViewModel.Items = tmp;
@@ -229,14 +197,10 @@ namespace EssentialUIKit.Views.Detail
             this.Title.IsVisible = true;
         }
 
-        private async void UpdateUserStats_Clicked(object sender, EventArgs e)
-        {
-            await signalR.SendUserStats(App._user.RowKey);
-        }
-
         private async void LeaveGroup_Clicked(object sender, EventArgs e)
         {
-            await AzureDbClient.DeleteParticipantFromGroup(this.sessionParticipant);
+            await AzureClient.DeleteParticipantFromGroup(this.sessionParticipant);
+            this.signalR = null;
         }
 
         private async Task SignalR_NewUserStatsReceived(object sender, UserStats userStats)
@@ -252,9 +216,18 @@ namespace EssentialUIKit.Views.Detail
             }
             else
             {
-                App._activeUsers = await AzureDbClient.GetGroupParticipantsAsync(App._groupId);
-                App._userStats = await AzureDbClient.GetGroupStatsAsync();
+                App._activeUsers = await AzureClient.GetGroupParticipantsAsync(App._groupId);
+                App._userStats = await AzureClient.GetGroupStatsAsync();
             }
+
+            RefreshView();
+        }
+
+        private async Task SignalR_Refresh(object sender, string message)
+        {
+            var participantsFromTable = AzureClient.GetGroupParticipantsAsync(App._groupId);
+            App._activeUsers = await participantsFromTable;
+            App._userStats = await AzureClient.GetGroupStatsAsync();
 
             RefreshView();
         }
@@ -263,11 +236,21 @@ namespace EssentialUIKit.Views.Detail
         {
             while (true)
             {
-                if (App._user != null)
+                if (this.signalR != null)
                 {
-                    await signalR.SendUserStats(App._user.RowKey);
+                    if (App._user != null)
+                    {
+                        await signalR.SendUserStats(App._user.RowKey);
+                        try
+                        {
+                            await AlertMethods.ManageAlertNotfication();
+                        } catch (Exception e)
+                        {
+                            var ee = e;
+                        }
+                    }
+                    await Task.Delay(5000);
                 }
-                await Task.Delay(5000);
             }
         }
     }

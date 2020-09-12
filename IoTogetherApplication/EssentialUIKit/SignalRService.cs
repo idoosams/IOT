@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using EssentialUIKit.Models;
-using EssentialUIKit.Schema;
 using Xamarin.Essentials;
 
 namespace EssentialUIKit
@@ -18,8 +16,10 @@ namespace EssentialUIKit
 
         public delegate Task UserStatsHandler(object sender, UserStats user);
         public delegate void ConnectionHandler(object sender, bool successful, string message);
+        public delegate Task RefreshHendler(object sender, string message);
 
         public event UserStatsHandler NewUserStats;
+        public event RefreshHendler RefreshTrigger;
         public event ConnectionHandler Connected;
         public event ConnectionHandler ConnectionFailed;
         public bool IsConnected { get; private set; }
@@ -47,7 +47,7 @@ namespace EssentialUIKit
             var userStats = new UserStats(userId, location.Latitude, location.Longitude, (double)location.Speed, Battery.ChargeLevel, true);
             var json = JsonConvert.SerializeObject(userStats);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var result = await client.PostAsync($"{Constants.HostName}/api/UpdateUserStats", content);
+            var result = await client.PostAsync($"{Constants.HostName}/api/UpdateUserStats?groupId={App._groupId}", content);
            
             IsBusy = false;
         }
@@ -71,6 +71,7 @@ namespace EssentialUIKit
 
                 connection.Closed += Connection_Closed;
                 connection.On<UserStats>("userStatsUpdate", UpdateNewUserStats);
+                connection.On<string>("userLeft", RefreshHandler);
                 await connection.StartAsync();
 
                 IsConnected = true;
@@ -98,6 +99,11 @@ namespace EssentialUIKit
         {
             var userStats = jsonUserStats;
             NewUserStats?.Invoke(this, userStats);
+        }
+
+        void RefreshHandler(string message)
+        {
+            RefreshTrigger?.Invoke(this, message);
         }
 
     }

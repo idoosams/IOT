@@ -223,7 +223,7 @@ namespace EssentialUIKit.ViewModels.Forms
         {
             string id = Guid.NewGuid().ToString("N");
             Participant participant = new Participant(id, this.firstName, this.lastName, this.phone, this.emergencyPhone, this.emergencyName, this.Email, PasswordHasher.GetHashString(this.password));
-            await AzureDbClient.SaveParticipant(participant);
+            await AzureClient.SaveParticipant(participant);
             await Application.Current.MainPage.DisplayAlert($"Welcome, {this.firstName} {this.lastName}", "Please login with your new credentials", "Ok");
             await Application.Current.MainPage.Navigation.PushAsync(new SimpleLoginPage());
         }

@@ -19,6 +19,7 @@ namespace OnTrackAzureFunctions
         [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
         [SignalR(HubName = "OnTrackHub")]
         IAsyncCollector<SignalRGroupAction> signalRGroupActions,
+        [SignalR(HubName = "OnTrackHub")] IAsyncCollector<SignalRMessage> signalRMessanger,
         [Table("GroupInfo", Connection = "AzureWebJobsStorage")] CloudTable groupInfoTable)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
@@ -30,10 +31,18 @@ namespace OnTrackAzureFunctions
             TableOperation delete = TableOperation.Delete(entity);
             await groupInfoTable.ExecuteAsync(delete); // TODO: check fali
 
+            await signalRMessanger.AddAsync(
+            new SignalRMessage
+            {
+                Target = "userLeft",
+                Arguments = new[] { "leaveGroup" },
+                GroupName = sessionParticipant.groupId
+            });
+
             await signalRGroupActions.AddAsync(
                 new SignalRGroupAction
                 {
-                    UserId = sessionParticipant.id,
+                    UserId = sessionParticipant.participantId,
                     GroupName = sessionParticipant.groupId,
                     Action = GroupAction.Remove
                 });
