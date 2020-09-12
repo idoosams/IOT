@@ -24,6 +24,7 @@ namespace OnTrackAzureFunctions
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<UserStats>(requestBody);
+            string groupId = req.Query["groupId"];
 
             var entity = new UserStatsTableEntity(data.Id, data.Latitude, data.Longtitude, data.Speed, data.BaterryCharge, data.Connectivity);
             TableOperation replace = TableOperation.InsertOrReplace(entity);
@@ -33,7 +34,8 @@ namespace OnTrackAzureFunctions
             new SignalRMessage
             {
                 Target = "userStatsUpdate",
-                Arguments = new[] { data }
+                Arguments = new[] { data },
+                GroupName = groupId,
             });
 
             return new OkObjectResult("OK");

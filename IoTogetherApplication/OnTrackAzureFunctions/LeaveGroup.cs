@@ -35,13 +35,14 @@ namespace OnTrackAzureFunctions
             new SignalRMessage
             {
                 Target = "userLeft",
-                Arguments = new[] { "leaveGroup" }
+                Arguments = new[] { "leaveGroup" },
+                GroupName = sessionParticipant.groupId
             });
 
             await signalRGroupActions.AddAsync(
                 new SignalRGroupAction
                 {
-                    UserId = sessionParticipant.id,
+                    UserId = sessionParticipant.participantId,
                     GroupName = sessionParticipant.groupId,
                     Action = GroupAction.Remove
                 });

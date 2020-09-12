@@ -32,7 +32,7 @@ namespace OnTrackAzureFunctions
             await signalRGroupActions.AddAsync(
                 new SignalRGroupAction
                 {
-                    UserId = sessionParticipant.id,
+                    UserId = sessionParticipant.participantId,
                     GroupName = sessionParticipant.groupId,
                     Action = GroupAction.Add
                 });
